@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <h2>EDITAR CATEGORIA</h2>
+    <form action="/comprobarEditarCategoria/{{id_categoria}}" method="post">
+        <input list="nombre" value="{{nombre_categoria}}" type="text" placeholder="nombre" name="nombre_categoria">
+        <datalist id="nombre">
+            {% for res in categorias %}
+                <option value="{{res[2]}}">
+            {% endfor %}
+        </datalist>
+        <button>Editar categoria</button>
+        <br>
+        <p>{{msg}}</p>
+    </form>
+
+    <a href="/categorias">salir</a>
+</body>
+</html>

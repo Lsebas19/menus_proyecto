@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <h2>CREAR CATEGORIA</h2>
+    <form action="/comprobarCrearCategoria/{{origen_crear}}" method="post">
+        <input list="nombre" type="text" placeholder="nombre" name="nombre_categoria">
+        <datalist id="nombre">
+            {% for res in categorias %}
+                <option value="{{res[2]}}">
+            {% endfor %}
+        </datalist>
+        <button>Crear categoria</button>
+        <br>
+        <p>{{msg}}</p>
+    </form>
+
+    {% if origen_crear == "producto" %}
+        <a href="/crearProducto">salir</a>
+    {% else %}
+        <a href="/categorias">salir</a>
+    {% endif %}
+</body>
+</html>

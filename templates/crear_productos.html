@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>crear producto</title>
+</head>
+<body>
+    <h2>CREAR PRODUCTO</h2>
+    <a href="/crearCategoria/producto">crear categoria</a><br>
+    <a href="/productos">salir</a>
+    <form action="/crearProductoComprobar" method="post" enctype="multipart/form-data"">
+
+        <select name="categoria" id="">
+            <option value="ninugna">Escoja una categoria</option>
+            {% for categoria in categorias %}
+                <option value="{{categoria[0]}}">{{categoria[2]}}</option>
+            {% endfor %}
+        </select><br>
+        <input list="nombre_producto" placeholder="nombre" type="text" id="nombre" name="nombre_producto">
+        
+        <datalist id="nombre_producto">
+            {% for producto in productos %}
+                <option value="{{producto[1]}}">
+            {% endfor %}
+        </datalist>
+        
+        <br>
+        <input type="text" placeholder="descripcion" name="descripcion_producto"><br>
+        <input type="text" placeholder="presentacion" name="presentacion_producto"><br>
+        <input type="file" accept="image/*" name="imagen_producto"><br>
+        <input type="text" placeholder="precio" name="precio_producto"><br>
+        <button>Crear producto</button>
+    </form>
+    <p>{{msg}}</p>
+</body>
+</html>

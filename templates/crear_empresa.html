@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Crear empresa</title>
+</head>
+<body>
+
+    <form action="/comprobarEmpresa" method="post" enctype="multipart/form-data">
+        <input type="text" name="nit_empresa" placeholder="Nit de la empresa"><br>
+        <input type="text" name="nombre_empresa" placeholder="Nombre de la empresa"><br>
+        <input type="text" name="correo_empresa" placeholder="Correo de la empresa"><br>
+        <select id="pais" name="pais">
+            <option value="">Seleccione un país</option>
+            <option value="AR">Argentina</option>
+            <option value="BO">Bolivia</option>
+            <option value="BR">Brasil</option>
+            <option value="CL">Chile</option>
+            <option value="CO">Colombia</option>
+            <option value="CR">Costa Rica</option>
+            <option value="CU">Cuba</option>
+            <option value="EC">Ecuador</option>
+            <option value="SV">El Salvador</option>
+            <option value="ES">España</option>
+            <option value="US">Estados Unidos</option>
+            <option value="GT">Guatemala</option>
+            <option value="HN">Honduras</option>
+            <option value="MX">México</option>
+            <option value="NI">Nicaragua</option>
+            <option value="PA">Panamá</option>
+            <option value="PY">Paraguay</option>
+            <option value="PE">Perú</option>
+            <option value="PR">Puerto Rico</option>
+            <option value="DO">República Dominicana</option>
+            <option value="UY">Uruguay</option>
+            <option value="VE">Venezuela</option>
+        </select><br>
+        <input type="text" name="ciudad" placeholder="ciudad"><br>
+        <input type="text" name="direccion" placeholder="direccion de la empresa"><br>
+        <input type="text" name="telefono" placeholder="telefono de la empresa"><br>
+        <input type="file" name="logo_empresa">
+        {{msg}}
+        <button>Crear empresa</button>
+    </form>
+    <a href="/cerrarSesion">salir</a>
+    
+</body>
+</html>

@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>crear producto</title>
+</head>
+<body>
+    <h2>EDITAR PRODUCTO</h2>
+    <a href="/crearCategoria">crear categoria</a><br>
+    <a href="/productos">salir</a>
+    <form action="/editarProductoComprobar/{{id_producto}}" method="post" enctype="multipart/form-data"">
+
+    
+        <input list="nombre_producto" placeholder="nombre" type="text" id="nombre" name="nombre_producto" value="{{resultado[0][1]}}">
+        
+        <datalist id="nombre_producto">
+            {% for producto in productos %}
+                <option value="{{producto[1]}}">
+            {% endfor %}
+        </datalist>
+        
+        <br>
+        <input type="text" placeholder="descripcion" name="descripcion_producto" value="{{resultado[0][2]}}"><br>
+        <input type="text" placeholder="presentacion" name="presentacion_producto" value="{{resultado[0][3]}}"><br>
+        <input type="file" accept="image/*" name="imagen_producto" "><br>
+        <input type="text" placeholder="precio" name="precio_producto" value="{{resultado[0][5]}}"><br>
+        <button>Editar producto</button>
+    </form>
+    <p>{{msg}}</p>
+</body>
+</html>

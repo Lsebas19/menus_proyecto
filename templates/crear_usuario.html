@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <h2>Crear usuario</h2>
+    <form action="/comprobarCrearUsuario" method="post">
+        <input type="text" placeholder="numero de identidad" name="numero_identidad"><br>
+        <input type="text" placeholder="nombre" name="nombre"><br>
+        <input type="text" placeholder="correo" name="correo"><br>
+        <input type="text" placeholder="contraseña" name="contrasena"><br>
+        <button type="submit">Crear usuario</button>
+
+        <p>{{msg}}</p>
+        
+    </form>
+    <br>
+    <a href="/inicioAdmin">salir</a>
+</body>
+</html>

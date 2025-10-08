@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <h2>Editar usuario</h2>
+    <form action="/comprobarEditarUsuario" method="post">
+        <input type="text" placeholder="numero de identidad" name="numero_identidad" value="{{usuario[0][0]}}" readonly><br>
+        <input type="text" placeholder="nombre" name="nombre" value="{{usuario[0][1]}}"><br>
+        <input type="text" placeholder="correo" name="correo" value="{{usuario[0][2]}}"><br>
+        <button type="submit">editar usuario</button>
+
+        <p>{{msg}}</p>
+        
+    </form>
+    <br>
+    <a href="/usuario">salir</a>
+</body>
+</html>

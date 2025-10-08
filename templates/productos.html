@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        div{
+            padding: 10px;
+            width: 100%;
+            height: 180px;
+            display: flex;
+            align-items: center;
+            border: solid 1px #000;
+        }
+        img{
+            width: 180px;
+            height: 100%;
+            margin-right: 30px;
+        }
+
+        .texto{
+            display: block;
+            border: none;
+        }
+    </style>
+</head>
+<body>
+    <h2>PRODUCTOS</h2>
+    <a href="/crearProducto"> agregar producto</a>
+    <br>
+    <a href="/inicio">salir</a>
+
+    {% for productos in producto %}
+        
+        <div>
+            <img src="uploads/{{productos[4]}}" alt="">
+            <div class="texto">
+                <p>{{productos[1]}}</p>
+                <p>{{productos[2]}}</p>
+                <p>{{productos[3]}}</p>
+                <p>{{productos[5]}}</p>
+                <a href="/editarProducto/{{productos[0]}}">Editar</a>
+                <a href="/eliminarProducto/{{productos[0]}}">Eliminar</a>
+                <a href="/asignarCategoria/{{productos[0]}}">Categorias</a>
+            </div>
+                
+        </div>
+            
+    {% endfor %}
+    
+</body>
+</html>
