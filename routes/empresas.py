@@ -123,3 +123,17 @@ def comprobarEditarEmpresa(nit):
 @web_app.route("/uploads/<nombre>")
 def uploads(nombre):
     return send_from_directory(web_app.config['CARPETAU'],nombre)
+
+
+@web_app.route("/verificarNitEmpresa/<id>", methods=["GET"])
+def verificarNitEmpresa(id):
+    sql = f"SELECT nit_empresa FROM empresas WHERE nit_empresa = '{id}'"
+    mi_cursor = base_datos.cursor()
+    mi_cursor.execute(sql)
+    resultado = mi_cursor.fetchall()
+    mi_cursor.close()
+
+    if len(resultado) == 0:
+        return jsonify({"mensaje":"si"})
+    else:
+        return jsonify({"mensaje":"empresa ya existe"})

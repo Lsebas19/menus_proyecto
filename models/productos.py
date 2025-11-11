@@ -10,9 +10,9 @@ class Productos:
         #sanitiza los campos con respecto a lo recolectado 
         nombre_productoS = re.sub(r'[^a-zA-Z0-9\ ]', '', nombre_producto)
 
-        descripcion_productoS = re.sub(r'[^a-zA-Z0-9\ ]', '', descripcion_producto)
+        descripcion_productoS = re.sub(r'[^a-zA-Z0-9\,\ ]', '', descripcion_producto)
 
-        presentacion_productoS = re.sub(r'[^a-zA-Z0-9\ ]', '', presentacion_producto)
+        presentacion_productoS = re.sub(r'[^a-zA-Z0-9\,\ ]', '', presentacion_producto)
 
         precio_productoS = re.sub(r'[^0-9]', '', precio_producto)
 
@@ -50,9 +50,11 @@ class Productos:
         #verifica si el nombre del producto ya existe
         sql = f"SELECT nombre FROM productos WHERE nombre = '{nombre_producto}' AND nit_empresa = '{resultado}'"
 
+        mi_cursor = base_datos.cursor()
         mi_cursor.execute(sql)
 
         resultado = mi_cursor.fetchall()
+        mi_cursor.close()
 
         #condicional que verifica si el nombre ya existe para evitar duplicados
         if len(resultado) > 0:
@@ -82,9 +84,11 @@ class Productos:
             #inserta los datos del producto
             sql = f"INSERT INTO productos(id_productos,nombre,descripcion,presentacion,imagen,precio,fecha_creacion,nit_empresa) VALUES('{id_nuevo}','{nombre_producto}','{descripcion_producto}','{presentacion_producto}','{imagen}','{precio_producto}','{fecha_creacion}',{nit_empresa})"
 
+            mi_cursor = base_datos.cursor()
             mi_cursor.execute(sql)
 
             base_datos.commit()
+            mi_cursor.close()
 
             categorias = []
 
@@ -104,9 +108,11 @@ class Productos:
             id = random.randint(0,9999)
              
             sql = f"SELECT id_productos FROM productos WHERE id_productos = '{id}'"
+            mi_cursor = base_datos.cursor()
             mi_cursor.execute(sql)
 
             resultado = mi_cursor.fetchall()
+            mi_cursor.close()
 
             if len(resultado) == 0:
                 ciclo = "no"
@@ -157,10 +163,11 @@ class Productos:
 
             contador = contador+1
         
-
+        mi_cursor = base_datos.cursor()
         mi_cursor.execute(sql)
 
         base_datos.commit()
+        mi_cursor.close()
         
 
     #metodo para generar el id de la tabla intermedia para enlazar producto con categoria
@@ -171,9 +178,11 @@ class Productos:
             id = random.randint(0,9999)
             #recolecta el ultimo id creado 
             sql = f"SELECT id_tabla FROM productos_categorias WHERE id_tabla = '{id}'"
+            mi_cursor = base_datos.cursor()
             mi_cursor.execute(sql)
 
             resultado = mi_cursor.fetchall()
+            mi_cursor.close()
 
             if len(resultado) == 0:
                 ciclo = "no"
@@ -193,11 +202,13 @@ class Productos:
             return "no tiene empresa"
 
         #recolecta los datos del producto y el id de la cateogoria que tiene enlazada
-        sql = f"SELECT productos.nombre,productos.imagen,productos.descripcion, productos.presentacion,productos.precio, productos_categorias.categorias,productos,id_productos FROM productos INNER JOIN productos_categorias ON productos.id_productos = productos_categorias.productos WHERE productos.nit_empresa = '{resultado}' AND productos.estado = 1"
+        sql = f"SELECT productos.nombre,productos.imagen,productos.descripcion, productos.presentacion,productos.precio, productos_categorias.categorias,productos,id_productos,productos.visible FROM productos INNER JOIN productos_categorias ON productos.id_productos = productos_categorias.productos WHERE productos.nit_empresa = '{resultado}' AND productos.estado = 1 ORDER BY productos.precio DESC"
 
+        mi_cursor = base_datos.cursor()
         mi_cursor.execute(sql)
 
         resultado = mi_cursor.fetchall()
+        mi_cursor.close()
 
         return resultado
 
@@ -212,19 +223,24 @@ class Productos:
             return "no tiene empresa"
 
         #recolecta los productos relacionados con el nit de la empresa y que no esten borrados
-        sql = f"SELECT * FROM productos WHERE nit_empresa = '{resultado}' AND estado = 1"
+        sql = f"SELECT * FROM productos WHERE nit_empresa = '{resultado}' AND estado = 1 ORDER BY precio DESC"
+        
+        mi_cursor = base_datos.cursor()
         mi_cursor.execute(sql)
 
         resultado = mi_cursor.fetchall()
-
+        mi_cursor.close()
         return resultado
 
     #buscar el producto por id
     def buscarProductoPorID(self, id):
         #busca todos los datos del producto con el id proporcionado 
         sql = f"SELECT * FROM productos WHERE id_productos = '{id}'"
+        mi_cursor = base_datos.cursor()
         mi_cursor.execute(sql)
         resultado = mi_cursor.fetchall()
+        mi_cursor.close()
+
         return resultado
     
     #metodo para editar producto
@@ -241,18 +257,22 @@ class Productos:
         #buscar el nombre viejo para saber si coincide con el nuevo para que no interfiera en la edicion del producto
         sql = f"SELECT nombre FROM productos WHERE nit_empresa = '{resultado}' AND id_productos = '{id}' "
 
+        mi_cursor = base_datos.cursor()
         mi_cursor.execute(sql)
 
         nombre_viejo = mi_cursor.fetchall()
+        mi_cursor.close()
 
         #si el nombre viejo es diferente del nuevo se hace la validacion para saber si usa otro nombre que ya existe 
         if nombre_viejo[0][0] != nombre_producto:
             #busca el nombre del producto que se queria editar para saber si existe
             sql = f"SELECT nombre FROM productos WHERE nombre = '{nombre_producto}' AND nit_empresa = '{resultado}'"
 
+            mi_cursor = base_datos.cursor()
             mi_cursor.execute(sql)
 
             resultado = mi_cursor.fetchall()
+            mi_cursor.close()
 
             #condicional que verifica si el nombre existe para evitar productos duplicados
             if len(resultado) > 0:
@@ -273,10 +293,12 @@ class Productos:
         else:
             #si el usuario no agregó imagen se actualizan los datos menos la imagen
             sql = f"UPDATE productos SET nombre = '{nombre_producto}', descripcion='{descripcion_producto}',presentacion='{presentacion_producto}',precio='{precio_producto}', fecha_creacion = '{fecha_creacion}' WHERE id_productos = '{id}'"
-
+        
+        mi_cursor = base_datos.cursor()
         mi_cursor.execute(sql)
 
         base_datos.commit()
+        mi_cursor.close()
 
         #retorna mensaje de exito de edicion del producto
         return "producto editado"
@@ -316,24 +338,44 @@ class Productos:
 
     #metodo para eliminar el producto de forma logica 
     def eliminarProducto(self, id):
-        #se cambia el estado del producto a 0
-        sql = f"UPDATE productos SET estado = 0 WHERE id_productos = '{id}'"
 
-        mi_cursor.execute(sql)
+        numero_identidad = session.get("numero_identidad")
+        empresa = mi_empresa.buscarEmpresaPorNumeroIdentidad(numero_identidad)
 
-        base_datos.commit()
+        if empresa == "no tiene empresa":
+            return "no tiene empresa"
+        else:
+            sql = f"SELECT id_productos FROM productos WHERE id_productos = '{id}' AND nit_empresa = '{empresa}' AND estado = 1"
 
-        #mensaje de exito de la eliminacion del producto
-        return "producto eliminado"
+            mi_cursor = base_datos.cursor()
+            mi_cursor.execute(sql)
+
+            resultado = mi_cursor.fetchall()
+            mi_cursor.close()
+            if len(resultado) == 0:
+                return "no"
+            else:
+                #se cambia el estado del producto a 0
+                sql = f"UPDATE productos SET estado = 0 WHERE id_productos = '{id}'"
+
+                mi_cursor = base_datos.cursor()
+                mi_cursor.execute(sql)
+
+                base_datos.commit()
+                mi_cursor.close()
+                #mensaje de exito de la eliminacion del producto
+                return "producto eliminado"
     
 
     def categoriasProducto(self,id_producto):
         #recolecta las categorias que hay enlazadas al producto seleccionado
         sql = f"SELECT * FROM productos_categorias WHERE productos = '{id_producto}'"
 
+        mi_cursor = base_datos.cursor()
         mi_cursor.execute(sql)
 
         resultado = mi_cursor.fetchall()
+        mi_cursor.close()
 
         return resultado
     
@@ -380,6 +422,8 @@ class Productos:
             mi_producto.borrarCategoriasNoAsignadas(id,eliminar)
         return "asignadas"
 
+        
+
     def borrarCategoriasNoAsignadas(self,id,seleccionadas):
 
         #sentencia sql incompleta para concatenar posteriormente dependiendo de cuantas categorias haya
@@ -396,8 +440,10 @@ class Productos:
             contador = contador+1
         sql = sql+")"
         print (sql)
+        mi_cursor = base_datos.cursor()
         mi_cursor.execute(sql)
         base_datos.commit()
+        mi_cursor.close()
 
 
     def sanitizarCategoriasSeleccionadas(self,categorias):
@@ -412,5 +458,21 @@ class Productos:
             else:
                 return "categoria invalida"
         return "campos correctos"
+
+    def promocionProducto(self, precio_nuevo, id):
+        sql = f"UPDATE productos SET promocion = {precio_nuevo} WHERE id_productos = '{id}'"
+
+        mi_cursor = base_datos.cursor()
+
+        mi_cursor.execute(sql)
+
+        base_datos.commit()
+
+        mi_cursor.close()
+
+        return "promocionado"
+
+
+    
 
 mi_producto = Productos()

@@ -1,0 +1,273 @@
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+        }
+
+        body {
+            background: linear-gradient(135deg, #8FBC8F 0%, #657f65 100%);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            padding: 20px;
+        }
+
+        .contenedor-principal {
+            width: 100%;
+            max-width: 500px;
+            background: #F5F5DC;
+            border-radius: 20px;
+            box-shadow: 0 15px 30px rgba(0, 0, 0, 0.2);
+            overflow: hidden;
+            padding: 40px 30px;
+            position: relative;
+        }
+
+        .contenedor-icono {
+            display: flex;
+            justify-content: center;
+            margin-bottom: 20px;
+        }
+
+        .icono-producto {
+            width: 100px;
+            height: 100px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, #1a1a2e 0%, #0d0d1a 100%);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+            border: 4px solid #F5F5DC;
+        }
+
+        .icono-producto i {
+            font-size: 45px;
+            color: #8FBC8F;
+        }
+
+        .titulo {
+            text-align: center;
+            color: #36454F;
+            font-size: 28px;
+            font-weight: 600;
+            margin-bottom: 25px;
+            letter-spacing: 0.5px;
+        }
+
+        .enlace-categoria {
+            text-align: center;
+            margin-bottom: 20px;
+        }
+
+        .enlace-categoria a {
+            color: #E97451;
+            text-decoration: none;
+            font-weight: 500;
+            transition: color 0.3s;
+        }
+
+        .enlace-categoria a:hover {
+            color: #d86a45;
+            text-decoration: underline;
+        }
+
+        .grupo-formulario {
+            width: 100%;
+            margin-bottom: 18px;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 8px;
+            color: #36454F;
+            font-weight: 500;
+            font-size: 16px;
+        }
+
+        input[type="text"],
+        input[type="number"],
+        textarea,
+        select {
+            width: 100%;
+            padding: 15px 20px;
+            border: 2px solid #8FBC8F;
+            border-radius: 10px;
+            background: #F5F5DC;
+            color: #36454F;
+            font-size: 16px;
+            transition: all 0.3s;
+            resize: vertical;
+        }
+
+        input[type="text"]:focus,
+        input[type="number"]:focus,
+        textarea:focus,
+        select:focus {
+            outline: none;
+            border-color: #E97451;
+            box-shadow: 0 0 0 3px rgba(233, 116, 81, 0.2);
+        }
+
+        input[type="text"]::placeholder,
+        input[type="number"]::placeholder,
+        textarea::placeholder {
+            color: #888;
+        }
+
+        .ejemplo-presentacion {
+            font-size: 12px;
+            color: #888;
+            margin-top: 5px;
+            font-style: italic;
+        }
+
+        /* Sección de subida de imagen del producto */
+        .seccion-imagen {
+            background: #f9f9f9;
+            border: 2px dashed #8FBC8F;
+            border-radius: 10px;
+            padding: 20px;
+            margin: 20px 0;
+            text-align: center;
+            transition: all 0.3s;
+            cursor: pointer;
+        }
+
+        .seccion-imagen.activa {
+            border-color: #E97451;
+            background: #fff9f7;
+        }
+
+        .contenedor-subida {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .icono-subida {
+            font-size: 40px;
+            color: #8FBC8F;
+            margin-bottom: 10px;
+            transition: all 0.3s;
+        }
+
+        .seccion-imagen:hover .icono-subida {
+            color: #E97451;
+            transform: scale(1.1);
+        }
+
+        .texto-subida {
+            color: #36454F;
+            font-size: 16px;
+            margin-bottom: 5px;
+        }
+
+        .info-archivo {
+            color: #888;
+            font-size: 14px;
+            margin-top: 5px;
+        }
+
+        .vista-previa {
+            width: 100px;
+            height: 100px;
+            border-radius: 10px;
+            object-fit: cover;
+            margin-top: 10px;
+            display: none;
+        }
+
+        /* Contenedor de botones */
+        .contenedor-botones {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+            margin-top: 20px;
+        }
+
+        .boton {
+            width: 100%;
+            padding: 16px;
+            border: none;
+            border-radius: 10px;
+            color: white;
+            font-size: 18px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .boton-crear {
+            background: #36454F;
+            box-shadow: 0 4px 10px rgba(233, 116, 81, 0.3);
+        }
+
+
+        .boton-regresar {
+            background: #6c757d;
+            box-shadow: 0 4px 10px rgba(108, 117, 125, 0.3);
+        }
+
+        .boton-regresar:hover {
+            background: #5a6268;
+            transform: translateY(-2px);
+            box-shadow: 0 6px 15px rgba(108, 117, 125, 0.4);
+        }
+
+        .boton-regresar:active {
+            transform: translateY(0);
+            box-shadow: 0 4px 10px rgba(108, 117, 125, 0.3);
+        }
+
+        .mensaje-error {
+            color: #dc3545;
+            font-size: 14px;
+            margin-top: 5px;
+            display: none;
+        }
+
+        @media (max-width: 480px) {
+            .contenedor-principal {
+                padding: 30px 20px;
+                max-width: 100%;
+            }
+            
+            .icono-producto {
+                width: 80px;
+                height: 80px;
+            }
+            
+            .icono-producto i {
+                font-size: 35px;
+            }
+            
+            .titulo {
+                font-size: 24px;
+            }
+            
+            input[type="text"],
+            input[type="number"],
+            textarea,
+            select {
+                padding: 12px 15px;
+            }
+            
+            .boton {
+                padding: 14px;
+                font-size: 16px;
+            }
+            
+            .seccion-imagen {
+                padding: 15px;
+            }
+        }

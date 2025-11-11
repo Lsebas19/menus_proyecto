@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Servidor: 127.0.0.1
--- Tiempo de generación: 29-09-2025 a las 15:30:28
+-- Tiempo de generación: 28-10-2025 a las 13:42:43
 -- Versión del servidor: 10.4.32-MariaDB
 -- Versión de PHP: 8.2.12
 
@@ -30,7 +30,7 @@ SET time_zone = "+00:00";
 CREATE TABLE `categorias` (
   `id_categoria` varchar(4) NOT NULL,
   `nit_empresa` varchar(11) DEFAULT NULL,
-  `nombre` varchar(30) DEFAULT NULL,
+  `nombre` varchar(58) DEFAULT NULL,
   `fecha_creacion` datetime DEFAULT NULL,
   `estado` tinyint(1) NOT NULL DEFAULT 1
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
@@ -44,17 +44,18 @@ CREATE TABLE `categorias` (
 CREATE TABLE `empresas` (
   `nit_empresa` varchar(11) NOT NULL,
   `numero_identidad` varchar(15) NOT NULL,
-  `nombre` varchar(50) DEFAULT NULL,
-  `correo` varchar(30) DEFAULT NULL,
-  `ciudad` varchar(30) DEFAULT NULL,
-  `codigo_qr` varchar(128) DEFAULT NULL,
+  `nombre` varchar(84) DEFAULT NULL,
+  `correo` varchar(64) DEFAULT NULL,
+  `ciudad` varchar(58) DEFAULT NULL,
+  `codigo_qr` varchar(30) DEFAULT NULL,
   `link` varchar(128) DEFAULT NULL,
-  `direccion` varchar(30) DEFAULT NULL,
-  `telefono` varchar(10) DEFAULT NULL,
+  `direccion` varchar(168) DEFAULT NULL,
+  `telefono` varchar(12) DEFAULT NULL,
   `logo` varchar(30) DEFAULT NULL,
   `pais` varchar(30) DEFAULT NULL,
   `fecha_creacion` datetime DEFAULT NULL,
-  `estado` tinyint(1) NOT NULL DEFAULT 1
+  `estado` tinyint(1) NOT NULL DEFAULT 1,
+  `cifrado` varchar(128) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 -- --------------------------------------------------------
@@ -65,9 +66,11 @@ CREATE TABLE `empresas` (
 
 CREATE TABLE `menus` (
   `id_menu` varchar(4) NOT NULL,
+  `nombre` varchar(58) NOT NULL,
   `nit_empresa` varchar(11) DEFAULT NULL,
-  `fecha_Creacion` datetime DEFAULT NULL,
-  `estado` tinyint(1) DEFAULT 1
+  `fecha_creacion` datetime DEFAULT NULL,
+  `estado` tinyint(1) DEFAULT 1,
+  `seleccionado` tinyint(1) NOT NULL DEFAULT 0
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 -- --------------------------------------------------------
@@ -78,14 +81,15 @@ CREATE TABLE `menus` (
 
 CREATE TABLE `productos` (
   `id_productos` varchar(4) NOT NULL,
-  `nombre` varchar(50) DEFAULT NULL,
+  `nombre` varchar(183) DEFAULT NULL,
   `descripcion` varchar(230) DEFAULT NULL,
   `presentacion` varchar(150) DEFAULT NULL,
   `imagen` varchar(30) DEFAULT NULL,
   `precio` int(6) DEFAULT NULL,
   `fecha_creacion` datetime DEFAULT NULL,
   `nit_empresa` varchar(10) DEFAULT NULL,
-  `estado` tinyint(1) NOT NULL DEFAULT 1
+  `estado` tinyint(1) NOT NULL DEFAULT 1,
+  `visible` tinyint(1) NOT NULL DEFAULT 1
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 -- --------------------------------------------------------
@@ -110,7 +114,8 @@ CREATE TABLE `seleccionados` (
   `id_seleccionado` varchar(4) NOT NULL,
   `menu` varchar(4) DEFAULT NULL,
   `id_categoria` varchar(4) NOT NULL,
-  `estado` tinyint(1) NOT NULL
+  `estado` tinyint(1) NOT NULL,
+  `posicion` int(2) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 -- --------------------------------------------------------
@@ -121,8 +126,8 @@ CREATE TABLE `seleccionados` (
 
 CREATE TABLE `usuarios` (
   `numero_identidad` varchar(15) NOT NULL,
-  `nombre` varchar(30) DEFAULT NULL,
-  `correo` varchar(30) DEFAULT NULL,
+  `nombre` varchar(85) DEFAULT NULL,
+  `correo` varchar(64) DEFAULT NULL,
   `contrasena` varchar(128) DEFAULT NULL,
   `fecha_creacion` datetime DEFAULT NULL,
   `estado` tinyint(1) NOT NULL DEFAULT 1,

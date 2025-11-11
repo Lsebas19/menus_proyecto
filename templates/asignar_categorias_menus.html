@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Asignar categorias</title>
+</head>
+<body>
+    
+    <h2>Asignar categorias a menu: {{nombre_menu}}</h2>
+    <form action="/comprobarAsignarCategoriasMenu/{{id}}" method="post">
+        {% for categorias in resul %}
+            <input type="checkbox" name="seleccionadas" value="{{categorias[0]}}"
+            {% for seleccionado in seleccionados %}
+             {% if seleccionado[2] == categorias[0] %}
+                checked
+            {% endif %}{% endfor %} >{{categorias[2]}}
+            
+        {% endfor %}
+        <br>
+        {{msg}}
+        <br>
+        <button type="submit">asignar</button>
+    </form>
+
+    <a href="/categoriasMenu/{{id}}">Salir</a>
+</body>
+</html>

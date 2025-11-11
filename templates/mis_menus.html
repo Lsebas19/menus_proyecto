@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mis menus</title>
+    <style>
+        div{
+            border:solid 1px #000;
+        }
+    </style>
+</head>
+<body>
+    <h2>MIS MENUS</h2>
+
+    <a href="/agregarMenu">Agregar menu</a><br>
+    <a href="/inicio">salir</a>
+    {% if contador_menus == 0 %}
+        <h2>No hay menus creados todavia</h2>
+    {% else %}
+        <form action="/asignarMenu" method="post">
+            <button type="submit">Guardar Cambios</button>
+            
+            {% for menus in mis_menus %}
+                <div>
+                    <h3>{{menus[1]}}</h3>
+                    <a href="/editarNombreMenu/{{menus[0]}}">Editar</a><br>
+                    <a href="/categoriasMenu/{{menus[0]}}">categorias</a>
+                    <br>
+                    <a href="/ordenarCategorias/{{menus[0]}}">ordenar</a><br>
+                    <a href="/eliminarMenu/{{menus[0]}}">Borrar Menú</a><br>
+                    <input type="radio" id="asigna_menu" value="{{menus[0]}}" name="asigna_menu" {% if menus[0] == asignado %} checked {% endif %}>seleccionar
+                    
+                </div>
+            {% endfor %}
+
+        </form>
+    {% endif %}
+</body>
+</html>

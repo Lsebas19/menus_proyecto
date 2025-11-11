@@ -1,23 +1,75 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="es">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+    <title>Crear Usuario</title>
+    <link rel="stylesheet" href="../static/css/usuario.css">
+    <style>
+
+    </style>
 </head>
 <body>
-    <h2>Crear usuario</h2>
-    <form action="/comprobarCrearUsuario" method="post">
-        <input type="text" placeholder="numero de identidad" name="numero_identidad"><br>
-        <input type="text" placeholder="nombre" name="nombre"><br>
-        <input type="text" placeholder="correo" name="correo"><br>
-        <input type="text" placeholder="contraseña" name="contrasena"><br>
-        <button type="submit">Crear usuario</button>
-
-        <p>{{msg}}</p>
+    <div class="contenedor-principal">
+        <!-- Icono en la parte superior, como en el login -->
+        <div class="contenedor-icono">
+            <div class="icono-usuario">
+                <i class="fas fa-user-plus"></i>
+            </div>
+        </div>
         
-    </form>
-    <br>
-    <a href="/inicioAdmin">salir</a>
+        <h1 class="titulo">Crear Usuario</h1>
+        
+        <form id="formularioUsuario" action="/comprobarCrearUsuario" method="post">
+            <div class="grupo-formulario">
+                <label for="identidad">Número de Identidad</label>
+                <input type="text" id="identidad" name="numero_identidad" placeholder="Ingrese el número de identidad" min="6" max="15", pattern="[a-zA-Z0-9]{6,15}", required, autocomplete="on", tabindex="1">
+                <p id="campo_error_identidad"></p>
+            </div>
+            
+            <div class="grupo-formulario">
+                <label for="nombre">Nombre Completo</label>
+                <input type="text" id="nombre" name="nombre" placeholder="Ingrese el nombre completo" maxlength="85", minlength="1", pattern="[a-zA-Z0-9\ ]{1,85}", required, autocomplete="on", tabindex="2">
+                <p id="campo_error_nombre"></p>
+            </div>
+            
+            <div class="grupo-formulario">
+                <label for="email">Correo Electrónico</label>
+                <input type="email" autocomplete="off" id="email"  name="correo" placeholder="Ingrese el correo electrónico" minlength="11", maxlength="64", pattern="[a-z0-9.-_]+@+[a-z0-9]+.+[a-z.]{2,}", required, inputmode="email", autocomplete="on", tabindex="3">
+                <p id="campo_error_email"></p>
+            </div>
+            
+            <div class="grupo-formulario">
+                <label for="contrasena">Contraseña</label>
+                <input type="password" id="contrasena" name="contrasena" autocomplete="off" placeholder="Ingrese la contraseña" minlength="6", maxlength="12", pattern="[a-zA-Z0-9\#\@\%\\]{6,12}", required, tabindex="4" required>
+                <i class="fas fa-eye icono-ojo" id="toggleContrasena"></i>
+                <p id="campo_error_contrasena"></p>
+            </div>
+
+            <div class="grupo-formulario">
+                <label for="confirmar_contrasena">confirmar Contraseña</label>
+                <input type="password" id="confirmar_contrasena" placeholder="Ingrese la contraseña" required>
+                <i class="fas fa-eye icono-ojo" id="toggleContrasena"></i>
+                <p id="campo_error_confirmar_contrasena"></p>
+            </div>
+            
+            
+            <!-- Contenedor de botones -->
+            <div class="contenedor-botones">
+                <a href="/inicioAdmin" class="boton boton-regresar" id="botonRegresar">
+                    <i class="fas fa-arrow-left"></i>
+                    Regresar
+                </a>
+                <button type="submit" id="boton" class="boton boton-registrar">
+                    <i class="fas fa-user-plus"></i>
+                    Registrar Usuario
+                </button>
+                <p>{{msg}}</p>
+            </div>
+        </form>
+    </div>
+
+    <script src="../static/js/usuario.js"></script>
+    
 </body>
 </html>

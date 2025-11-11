@@ -1,16 +1,48 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="es">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+    <title>Inicio de Sesión</title>
+    <link rel="stylesheet" href="../static/css/login.css">
+    <style>
+    </style>
 </head>
 <body>
-    <form action="/comprobarIniciar" method="post">
-        <input type="text" name="numero_identidad" placeholder="numero de identidad"><br>
-        <input type="text" name="contrasena" placeholder="contraseña"><br>
-        <button type="submit">Entrar</button>
-        {{msg}}
-    </form>
+    <div class="contenedor-principal">
+        <div class="contenedor-icono">
+            <div class="icono-usuario">
+                <i class="fas fa-user"></i>
+            </div>
+        </div>
+        
+        <h1 class="titulo">Iniciar Sesión</h1>
+        
+        <form action="/comprobarIniciar" method="post">
+            <div class="grupo-formulario">
+                <label for="documento">Documento de Identidad</label>
+                <input type="text" name="numero_identidad" id="documento" placeholder="Ingrese su documento" min="10" max="10", pattern="[a-zA-Z0-9]{6,15}", required, autocomplete="on", tabindex="1">
+            </div>
+            
+            <div class="grupo-formulario">
+                <label for="contrasena">Contraseña</label>
+                <input type="password" name="contrasena" id="contrasena" placeholder="Ingrese su contraseña" minlength="6", maxlength="12", pattern="[a-zA-Z0-9\#\@\%\\]{6,12}", required, tabindex="4">
+            </div>
+            
+            <button type="submit" class="boton">Iniciar sesión</button>
+            <p>{{msg}}</p>
+        </form>
+    </div>
+
+    <script>
+        // Efecto simple en el botón
+        document.querySelector('.boton').addEventListener('mouseover', function() {
+            this.style.transform = 'translateY(-2px)';
+        });
+        
+        document.querySelector('.boton').addEventListener('mouseout', function() {
+            this.style.transform = 'translateY(0)';
+        });
+    </script>
 </body>
 </html>

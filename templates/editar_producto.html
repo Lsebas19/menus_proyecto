@@ -1,32 +1,88 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="es">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>crear producto</title>
+    <title>Editar Producto</title>
+    <link rel="stylesheet" href="../static/css/producto.css">
+    <style>
+    </style>
 </head>
 <body>
-    <h2>EDITAR PRODUCTO</h2>
-    <a href="/crearCategoria">crear categoria</a><br>
-    <a href="/productos">salir</a>
-    <form action="/editarProductoComprobar/{{id_producto}}" method="post" enctype="multipart/form-data"">
+    <div class="contenedor-principal">
+        <!-- Icono en la parte superior -->
+        <div class="contenedor-icono">
+            <div class="icono-producto">
+                <i class="fas fa-box"></i>
+            </div>
+        </div>
+        
+        <h1 class="titulo">Editar Producto</h1>
+        
+        <form id="formularioProducto" action="/editarProductoComprobar/{{id_producto}}" method="post" enctype="multipart/form-data">
+            
+            <div class="grupo-formulario">
+                <label for="nombreProducto">Nombre del producto</label>
+                <input type="text" name="nombre_producto" value="{{resultado[0][1]}}" list="nombre_producto" id="nombreProducto" placeholder="Ingrese el nombre del producto" minlength="3", maxlength="183", pattern="[a-zA-Z0-9\ ]{3,183}", required, autocomplete="on", tabindex="1">
+                <datalist id="nombre_producto">
+                    {% for producto in productos %}
+                        <option value="{{producto[1]}}">
+                    {% endfor %}
+                </datalist>
 
-    
-        <input list="nombre_producto" placeholder="nombre" type="text" id="nombre" name="nombre_producto" value="{{resultado[0][1]}}">
-        
-        <datalist id="nombre_producto">
-            {% for producto in productos %}
-                <option value="{{producto[1]}}">
-            {% endfor %}
-        </datalist>
-        
-        <br>
-        <input type="text" placeholder="descripcion" name="descripcion_producto" value="{{resultado[0][2]}}"><br>
-        <input type="text" placeholder="presentacion" name="presentacion_producto" value="{{resultado[0][3]}}"><br>
-        <input type="file" accept="image/*" name="imagen_producto" "><br>
-        <input type="text" placeholder="precio" name="precio_producto" value="{{resultado[0][5]}}"><br>
-        <button>Editar producto</button>
-    </form>
-    <p>{{msg}}</p>
+                <p id="campo_error_nombre"></p>
+            </div>
+            
+            <div class="grupo-formulario">
+                <label for="descripcion">Descripción del producto</label>
+                <textarea id="descripcion" name="descripcion_producto"  placeholder="Ingrese la descripción del producto" rows="3" minlength="6", maxlength="150", pattern="[a-zA-Z0-9\ ]{6,150}", required, autocomplete="on", tabindex="1">{{resultado[0][2]}}</textarea>
+            </div>
+            <p id="campo_error_descripcion"></p>
+            
+            <div class="grupo-formulario">
+                <label for="presentacion">Presentación del producto</label>
+                <input type="text" id="presentacion" value="{{resultado[0][3]}}" name="presentacion_producto" placeholder="Ej: Porción individual, para dos personas, familiar" minlength="6", maxlength="150", pattern="[a-zA-Z0-9\ ]{6,150}", required, autocomplete="on", tabindex="1">
+                <div class="ejemplo-presentacion">
+                    Ejemplos: Porción individual, Para dos personas, Familiar, Personal, Mediana, Grande
+                </div>
+            </div>
+            <p id="campo_error_presentacion"></p>
+            
+            <div class="grupo-formulario">
+                <label for="precio">Precio del producto</label>
+                <input type="number" id="precio" name="precio_producto" value="{{resultado[0][5]}}" placeholder="0.00" min="0" step="0.01" required>
+                <div class="mensaje-error" id="errorPrecio">
+                    El precio debe ser mayor a 0.
+                </div>
+            </div>
+            <p id="campo_error_precio"></p>
+            
+            <!-- Sección de subida de imagen del producto -->
+            <div class="seccion-imagen" id="seccionImagen">
+                <div class="contenedor-subida">
+                    <i class="fas fa-cloud-upload-alt icono-subida"></i>
+                    <p class="texto-subida">Haga clic para subir imagen del producto o arrastre una imagen PNG</p>
+                    <p class="info-archivo" id="infoArchivo">No se ha seleccionado archivo</p>
+                    <img id="vistaPreviaImagen" class="vista-previa" alt="Vista previa del producto">
+                </div>
+                <input type="file" id="inputImagen" name="imagen_producto" accept="" class="oculto">
+            </div>
+            
+
+            <!-- Contenedor de botones -->
+            <div class="contenedor-botones">
+                <a href="/productos" class="boton boton-regresar" id="botonRegresar">
+                    <i class="fas fa-arrow-left"></i>
+                    Regresar
+                </a>
+                <button type="submit" id="boton" class="boton boton-crear">
+                    <i class="fas fa-plus-circle"></i>
+                    Editar Producto
+                </button>
+                <p>{{msg}}</p>
+            </div>
+        </form>
+    </div>
+    <script src="../static/js/productos_editar.js"></script>
 </body>
 </html>

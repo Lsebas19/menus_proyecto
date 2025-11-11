@@ -13,12 +13,13 @@ class Usuario:
         #instruccion sql para encontrar usuario con el numero de identidad y contraseña digitados
         sql = f"SELECT nombre, rol FROM usuarios WHERE numero_identidad = '{numero_identidad}' AND contrasena = '{contrasena_cifrada}' AND estado = 1"
 
+        mi_cursor = base_datos.cursor()
         #Ejecucion de la sentencia sql
         mi_cursor.execute(sql)
 
         #recoleccion del nombre del usuario y asignacion a la variable
         nombre = mi_cursor.fetchall()
-
+        mi_cursor.close()
         #condicional para validar si el cursor trajo algun usuario
         if len(nombre) != 1:
             return "no encontrado"
@@ -38,8 +39,8 @@ class Usuario:
     def sanitizacionCampo(self, numero_identidad, contrasena):
 
         #evitar que los campos contengan caracteres no deseados por medio de expresiones regulares
-        numero_identidadS = re.sub(r'[^0-9]', '', numero_identidad)
-        contrasenaS = re.sub(r'[^a-zA-Z0-9]', '', contrasena)
+        numero_identidadS = re.sub(r'[^a-zA-Z0-9]', '', numero_identidad)
+        contrasenaS = re.sub(r'[^a-zA-Z0-9\#\@\%\\]', '', contrasena)
 
         #validar si el numero de identidad cumple con el tamaño del dato esperado
         if len(numero_identidad) > 5 and len(numero_identidad) < 16 and numero_identidadS == numero_identidad:
@@ -57,10 +58,11 @@ class Usuario:
         
         #sentencia sql para saber si el usuario tiene empresa
         sql = f"SELECT nombre FROM empresas WHERE '{numero_identidad}' = numero_identidad AND estado = 1"
+        mi_cursor = base_datos.cursor()
         mi_cursor.execute(sql)
 
         resultado = mi_cursor.fetchall()
-
+        mi_cursor.close()
         #validar si la sentencia encontró empresa de usuario
         if len(resultado) == 1:
             return "tiene empresa"
@@ -72,9 +74,10 @@ class Usuario:
         
         #sentencia sql para buscar si existe un usuario con ese numero de identidad
         sql = f"SELECT nombre FROM usuarios WHERE '{numero_identidad}' = numero_identidad AND estado = 1"
+        mi_cursor = base_datos.cursor()
         mi_cursor.execute(sql)
         resultado = mi_cursor.fetchall()
-        
+        mi_cursor.close()
         #condicional para saber si el usuario existe
         if len(resultado) > 0:
             #error
@@ -88,10 +91,11 @@ class Usuario:
 
             #inserta los datos
             sql = f"INSERT INTO usuarios (numero_identidad, nombre, correo, contrasena, fecha_creacion ) VALUES('{numero_identidad}','{nombre}','{correo}','{cifrada}','{fecha}')"
-             
+            mi_cursor = base_datos.cursor()
             mi_cursor.execute(sql)
 
             base_datos.commit()
+            mi_cursor.close()
     
     def sanitizacionCrearUsuario(self, numero_identidad,nombre,correo,contrasena):
 
@@ -157,15 +161,19 @@ class Usuario:
     #metodo para buscar el nombre de usuario
     def buscarNombreUsuario(self,id):
         sql = f"SELECT nombre FROM usuarios WHERE numero_identidad = '{id}'"  
+        mi_cursor = base_datos.cursor()
         mi_cursor.execute(sql)
         nombre = mi_cursor.fetchall()
+        mi_cursor.close()
         return nombre
     
     #metodo para buscar usuario por su numero de identidad
     def buscarUsuarioPorID(self,id):
         sql = f"SELECT * FROM usuarios WHERE numero_identidad = '{id}'"
+        mi_cursor = base_datos.cursor()
         mi_cursor.execute(sql)
         usuario = mi_cursor.fetchall()
+        mi_cursor.close()
         return usuario
 
     #metodo para crear usuario
@@ -178,10 +186,12 @@ class Usuario:
 
             #inserta los datos
             sql = f"UPDATE usuarios SET nombre = '{nombre}',correo='{correo}',fecha_creacion='{fecha}' WHERE numero_identidad = '{numero_identidad}'"
-                
+            
+            mi_cursor = base_datos.cursor()    
             mi_cursor.execute(sql)
 
             base_datos.commit()
+            mi_cursor.close()
 
     def sanitizacionContrasenas(self,contrasena_vieja,contrasena_nueva):
 
@@ -205,9 +215,10 @@ class Usuario:
         cifrada = mi_usuario.cifrarContrasena(contrasena)
 
         sql = f"UPDATE usuarios SET contrasena='{cifrada}' WHERE numero_identidad ='{id}' "
-        
+        mi_cursor = base_datos.cursor()
         mi_cursor.execute(sql)
 
         base_datos.commit()
+        mi_cursor.close()
 
 mi_usuario = Usuario()

@@ -1,0 +1,17 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Promocionar productos</title>
+</head>
+<body>
+    <form action="/promocionarProductoComprobar/{{resultado[0][0]}}" method="post">
+        <p>precio viejo:</p>
+        <input type="text" value="{{resultado[0][5]}}" name="precio_viejo" readonly>
+        <input type="text" name="precio_nuevo" placeholder="precio nuevo">
+        <button type="submit">Promocionar</button>
+        {{msg}}
+    </form>
+</body>
+</html>

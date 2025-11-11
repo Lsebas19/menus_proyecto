@@ -1,49 +1,116 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="es">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+    <title>Editar Empresa</title>
+    <link rel="stylesheet" href="../static/css/empresa.css">
+    <style>
+
+    </style>
 </head>
 <body>
-    <form action="/comprobarEditarEmpresa/{{empresa[0][0]}}" method="post" enctype="multipart/form-data">
-        <input type="text" name="nit_empresa" placeholder="Nit de la empresa" value="{{empresa[0][0]}}" readonly><br>
-        <input type="text" name="nombre_empresa" placeholder="Nombre de la empresa" value="{{empresa[0][2]}}"><br>
-        <input type="text" name="correo_empresa" placeholder="Correo de la empresa" value="{{empresa[0][3]}}"><br>
-        <select id="pais" name="pais">
-            <option value="actual">Actual</option>
-            <option value="AR">Argentina</option>
-            <option value="BO">Bolivia</option>
-            <option value="BR">Brasil</option>
-            <option value="CL">Chile</option>
-            <option value="CO">Colombia</option>
-            <option value="CR">Costa Rica</option>
-            <option value="CU">Cuba</option>
-            <option value="EC">Ecuador</option>
-            <option value="SV">El Salvador</option>
-            <option value="ES">España</option>
-            <option value="US">Estados Unidos</option>
-            <option value="GT">Guatemala</option>
-            <option value="HN">Honduras</option>
-            <option value="MX">México</option>
-            <option value="NI">Nicaragua</option>
-            <option value="PA">Panamá</option>
-            <option value="PY">Paraguay</option>
-            <option value="PE">Perú</option>
-            <option value="PR">Puerto Rico</option>
-            <option value="DO">República Dominicana</option>
-            <option value="UY">Uruguay</option>
-            <option value="VE">Venezuela</option>
-        </select><br>
-        <input type="text" name="ciudad" placeholder="ciudad" value="{{empresa[0][4]}}"><br>
-        <input type="text" name="direccion" placeholder="direccion de la empresa" value="{{empresa[0][7]}}"><br>
-        <input type="text" name="telefono" placeholder="telefono de la empresa" value="{{empresa[0][8]}}"><br>
-        <input type="file" name="logo_empresa">
-        <br>
-        {{msg}}
-        <br>
-        <button>Editar empresa</button>
-    </form>
-    <a href="/empresa">salir</a>
+    <div class="contenedor-principal">
+        <div class="contenedor-icono">
+            <div class="icono-empresa">
+                <i class="fas fa-building"></i>
+            </div>
+        </div>
+        
+        <h1 class="titulo">Editar Empresa</h1>
+        
+        <form id="formularioEmpresa" action="/comprobarEditarEmpresa/{{empresa[0][0]}}" method="post" enctype="multipart/form-data">
+            <div class="grupo-formulario">
+                <label for="nit">NIT de la Empresa</label>
+                <input type="text" name="nit_empresa" value="{{empresa[0][0]}}" id="nit" placeholder="Ingrese el NIT de la empresa"  readonly pattern="[0-9]{9}", max="9" min="9", required, autocomplete="on", tabindex="1">
+                <p id="error_nit"></p>
+            </div>
+            
+            <div class="grupo-formulario">
+                <label for="nombre">Nombre de Empresa</label>
+                <input type="text" name="nombre_empresa" id="nombre" value="{{empresa[0][2]}}" placeholder="Ingrese el nombre de la empresa" required>
+                <p id="error_nombre"></p>
+            </div>
+            
+            <div class="grupo-formulario">
+                <label for="email">Correo Electrónico</label>
+                <input type="email" id="email" name="correo_empresa"  value="{{empresa[0][3]}}" placeholder="Ingrese el correo electrónico" required>
+                <p id="error_email"></p>
+            </div>
+            
+            <div class="fila-formulario">
+                <div class="grupo-formulario">
+                    <label for="pais">País</label>
+                    <select id="pais" name="pais" required>
+                        <option value="">Seleccione un país</option>
+                        <option value="AR">Argentina</option>
+                        <option value="BO">Bolivia</option>
+                        <option value="BR">Brasil</option>
+                        <option value="CL">Chile</option>
+                        <option value="CO">Colombia</option>
+                        <option value="CR">Costa Rica</option>
+                        <option value="CU">Cuba</option>
+                        <option value="EC">Ecuador</option>
+                        <option value="SV">El Salvador</option>
+                        <option value="ES">España</option>
+                        <option value="US">Estados Unidos</option>
+                        <option value="GT">Guatemala</option>
+                        <option value="HN">Honduras</option>
+                        <option value="MX">México</option>
+                        <option value="NI">Nicaragua</option>
+                        <option value="PA">Panamá</option>
+                        <option value="PY">Paraguay</option>
+                        <option value="PE">Perú</option>
+                        <option value="PR">Puerto Rico</option>
+                        <option value="DO">República Dominicana</option>
+                        <option value="UY">Uruguay</option>
+                        <option value="VE">Venezuela</option>
+                    </select>
+                </div>
+                
+                <div class="grupo-formulario">
+                    <label for="ciudad">Ciudad</label>
+                    <input type="text" id="ciudad" name="ciudad" value="{{empresa[0][4]}}" placeholder="Ingrese la ciudad" pattern="[a-z0-9]{1,58}", minlength="1", maxlength="58", required, autocomplete="on", tabindex="5">
+                    <p id="error_ciudad"></p>
+                </div>
+            </div>
+            
+            <div class="grupo-formulario">
+                <label for="direccion">Dirección</label>
+                <input type="text" id="direccion" name="direccion" value="{{empresa[0][7]}}" placeholder="Ingrese la dirección"  minlength="3", maxlength="168", pattern="[a-z0-9-#.]{3,168}", required, autocomplete="on">
+                <p id="error_direccion"></p>
+            </div>
+            
+            <div class="grupo-formulario">
+                <label for="telefono">Teléfono</label>
+                <input type="tel" id="telefono" name="telefono" value="{{empresa[0][8]}}" placeholder="Ingrese el teléfono" required>
+                <p id="error_telefono"></p>
+            </div>
+            
+            <div class="seccion-logo" id="seccionLogo">
+                <div class="contenedor-subida">
+                    <i class="fas fa-cloud-upload-alt icono-subida"></i>
+                    <p class="texto-subida">Haga clic para subir logo o arrastre una imagen PNG</p>
+                    <p class="info-archivo" id="infoArchivo">No se ha seleccionado archivo</p>
+                    <img id="vistaPreviaLogo" class="vista-previa" alt="Vista previa del logo">
+                </div>
+                <input type="file" id="inputLogo" name="logo_empresa" ccept="image/*" class="oculto">
+            </div>
+            
+            <div class="contenedor-botones">
+                <a href="/empresa"  class="boton boton-regresar" id="botonRegresar">
+                    <i class="fas fa-arrow-left"></i>
+                    Regresar
+                </a>
+                <button type="submit" id="boton" class="boton boton-crear">
+                    <i class="fas fa-plus-circle"></i>
+                    Editar Empresa
+                </button>
+                <p>{{msg}}</p>
+            </div>
+        </form>
+    </div>
+
+    <script src="../static/js/empresa_editar.js"></script>
 </body>
 </html>

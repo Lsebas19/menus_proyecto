@@ -19,7 +19,7 @@ def categorias():
 
         
         #renderiza el html de categorias con los datos recolectados
-        return render_template("categorias.html",categoria = resultado, producto = productos_resultado)
+        return render_template("categorias.html",contador_categorias = len(resultado),categoria = resultado, producto = productos_resultado)
     else:
         return redirect("/")
 
@@ -131,3 +131,26 @@ def comprobarEditarCategoria(id):
                 return render_template("editar_categoria.html", id_categoria = id, nombre_categoria = nombre_categoria, msg = resultado)
     else:
         return render_template("editar_categoria.html", id_categoria = id, nombre_categoria = nombre_categoria, msg = resultado_sanitizacion)
+
+@web_app.route("/eliminarCategoria/<id>")
+def eliminarCategoria(id):
+    if session.get("login") != True:
+        return redirect("/")
+    else:  
+        resultado = mi_categoria.eliminarCategoria(id)
+        #condicional que verifica si se eliminó la categoria
+        if resultado == "no tiene empresa":
+            return redirect("/crearEmpresa")
+        elif resultado == "no":
+            return redirect("/cerrarSesion")
+        else:
+            return redirect("/categorias")
+
+@web_app.route("/traerCategorias", methods = ["GET"])
+def traerCategorias():
+    categorias = mi_categoria.buscarCategorias()
+
+    if categorias == "no tiene empresa":
+        return redirect("/crearEmpresa")
+    else:
+        return jsonify({"categorias": categorias})

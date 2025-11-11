@@ -1,28 +1,60 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="es">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+    <title>Crear Categoría</title>
+    <link rel="stylesheet" href="../static/css/categoria.css">
+    <style>
+
+    </style>
 </head>
 <body>
-    <h2>CREAR CATEGORIA</h2>
-    <form action="/comprobarCrearCategoria/{{origen_crear}}" method="post">
-        <input list="nombre" type="text" placeholder="nombre" name="nombre_categoria">
-        <datalist id="nombre">
-            {% for res in categorias %}
-                <option value="{{res[2]}}">
-            {% endfor %}
-        </datalist>
-        <button>Crear categoria</button>
-        <br>
-        <p>{{msg}}</p>
-    </form>
-
-    {% if origen_crear == "producto" %}
-        <a href="/crearProducto">salir</a>
-    {% else %}
-        <a href="/categorias">salir</a>
-    {% endif %}
+    <div class="contenedor-principal">
+        <!-- Icono en la parte superior -->
+        <div class="contenedor-icono">
+            <div class="icono-categoria">
+                <i class="fas fa-tags"></i>
+            </div>
+        </div>
+        
+        <h1 class="titulo">Crear Categoría</h1>
+        
+        <form id="formularioCategoria" action="/comprobarCrearCategoria/{{origen_crear}}" method="post">
+            <div class="grupo-formulario">
+                <label for="nombreCategoria">Nombre de la Categoría</label>
+                <input list="nombre"  type="text" id="nombreCategoria" name="nombre_categoria" placeholder="Ingrese el nombre de la categoría" min="5" max="58" , minlength="5", maxlength="58", pattern="[a-zA-Z/ ]{5,58}", required, tabindex="1", autocomplete="on">
+                <datalist id="nombre">
+                    {% for res in categorias %}
+                        <option value="{{res[2]}}">
+                    {% endfor %}
+                </datalist>
+                <p id="campo_error"></p>
+            
+            </div>
+            
+            <!-- Contenedor de botones -->
+            <div class="contenedor-botones">
+                {% if origen_crear == "producto" %}
+                    <a href="/crearProducto" class="boton boton-regresar" id="botonRegresar">
+                        <i class="fas fa-arrow-left"></i>
+                        Regresar
+                    </a>
+                {% else %}
+                    <a href="/categorias" class="boton boton-regresar" id="botonRegresar">
+                        <i class="fas fa-arrow-left"></i>
+                        Regresar
+                    </a>
+                {% endif %}
+                <button type="submit" class="boton boton-crear" id="boton">
+                    <i class="fas fa-plus-circle"></i>
+                    Crear Categoría
+                </button>
+                <p >{{msg}}</p>
+            </div>
+        </form>
+    </div>
+    
+    <script src="../static/js/categoria.js"></script>
 </body>
 </html>

@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>cateogrias de menú</title>
+    <style>
+        
+        img{
+            width: 180px;
+            height: 100%;
+            margin-right: 30px;
+        }
+
+        .texto{
+            display: block;
+            border: none;
+        }
+
+        ul {
+            list-style: none;
+            padding: 0;
+            width: 300px;
+        }
+        li {
+            background: #f4f4f4;
+            margin: 8px 0;
+            border: solid 1px #000;
+            padding: 12px;
+            border-radius: 8px;
+            cursor: grab;
+            user-select: none;
+            transition: transform 0.15s;
+        }
+        li:active {
+            cursor: grabbing;
+            transform: scale(1.02);
+        }
+        .drag-over {
+            border: 2px dashed #007bff;
+        }
+    </style>
+</head>
+<body>
+    <h2>Menú: {{menu[0][1]}}</h2>
+
+    <a href="/misMenus">salir</a>
+    
+    <p>Para ordenar las categorias manten presionada una y arrastrala a donde quieras que vaya</p>
+    <ul id="lista_categorias">
+        {% for categorias in categoria %}
+            <li draggable="true" id="{{categorias[0]}}">{{categorias[2]}}</li>
+        {% endfor %}
+    </ul>
+    
+
+    <script>
+        
+        const lista = document.getElementById("lista_categorias")
+        const items = Array.from(lista.querySelectorAll("li"));
+        let tamaño_lista = items.length
+        console.log(tamaño_lista)
+        let seleccionado = null
+        let encima = null
+
+        const menu = '{{menu[0][0]}}'
+
+        
+        let posicion_destino = null
+        let posicion_seleccionado = null
+        
+        
+        lista.addEventListener("dragstart",function(e){
+            seleccionado = e.target
+        })
+
+        lista.addEventListener('dragover',function(e){
+            encima = e.target
+        })
+
+
+        lista.addEventListener("dragend",function(e){
+            
+            for (let i = 0; i<tamaño_lista; i++){
+                
+                if (items[i] == encima){
+                    posicion_destino = i
+                }
+
+                if (items[i] == seleccionado){
+                    posicion_seleccionado = i
+                }
+            }
+            
+            items.splice(posicion_seleccionado,1)
+            items.splice(posicion_destino,0,seleccionado)
+            
+            lista.innerHTML = ""
+            items.forEach(item => lista.appendChild(item));
+            console.log(items)
+
+            ordenarProductos()
+        })
+
+        lista.addEventListener("touchstart",function(e){
+            seleccionado = e.target
+        })
+
+        lista.addEventListener('touchmove',function(e){
+            encima = e.target
+        })
+
+
+        lista.addEventListener("touchend",function(e){
+            console.log(encima)
+            for (let i = 0; i<tamaño_lista; i++){
+                
+                if (items[i] == encima){
+                    posicion_destino = i
+                }
+
+                if (items[i] == seleccionado){
+                    posicion_seleccionado = i
+                }
+            }
+
+            
+            items.splice(posicion_seleccionado,1)
+            items.splice(posicion_destino,0,seleccionado)
+            
+            
+            
+            
+            
+            lista.innerHTML = ""
+            items.forEach(item => lista.appendChild(item));
+            
+            ordenarProductos()
+
+        })
+
+
+        async function ordenarProductos(){
+            const ids = Array.from(items).map(el => el.id);
+            fetch("/ordenarCategoriasMenu", {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json",
+                },
+                body: JSON.stringify({ orden:  ids, menus: menu}) // Enviamos el array dentro de un objeto
+            })
+            const respuesta = await response.json()
+        }
+    </script>
+</body>
+</html>

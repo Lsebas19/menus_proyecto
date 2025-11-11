@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Editar Menu</title>
+    <link rel="stylesheet" href="../static/css/menus.css">
+    <style>
+
+    </style>
+</head>
+<body>
+    <div class="contenedor-principal">
+        <!-- Icono en la parte superior -->
+        <div class="contenedor-icono">
+            <div class="icono-categoria">
+                <i class="fas fa-tags"></i>
+            </div>
+        </div>
+        
+        <h1 class="titulo">Editar Menú</h1>
+        
+        <form id="formularioMenu" action="/comprobarEditarNombreMenu/{{id}}" method="post">
+            <div class="grupo-formulario">
+                <label for="nombre">Nombre del menú</label>
+                <input   type="text" value="{{menus[0][1]}}" id="nombre" name="nombre" placeholder="Ingrese el nombre del menú" min="5" max="58" , minlength="5", maxlength="58", pattern="[a-zA-Z/ ]{5,58}", required, tabindex="1", autocomplete="on">
+                
+                <p id="campo_error"></p>
+            
+            </div>
+            
+            <!-- Contenedor de botones -->
+            <div class="contenedor-botones">
+                
+                <a href="/misMenus" class="boton boton-regresar" id="botonRegresar">
+                    <i class="fas fa-arrow-left"></i>
+                    Regresar
+                </a>
+            
+                <button type="submit" class="boton boton-crear" id="boton">
+                    <i class="fas fa-plus-circle"></i>
+                    Editar Menú
+                </button>
+                <p >{{msg}}</p>
+            </div>
+        </form>
+    </div>
+    
+    <script src="../static/js/menu.js"></script>
+</body>
+</html>

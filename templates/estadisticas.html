@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <a href="/inicio">Salir</a>
+    <p>conteo de productos totales: {{conteo_productos}}</p>
+    <div>
+        <h2>Conteo de productos del menu asignado:</h2>
+        {% for conteo_menu in conteo_productos_categorias_menu %}
+            <p>{{conteo_menu[0]}}: {{conteo_menu[1]}}</p>
+        {% endfor %}
+    </div>
+
+    <div>
+        <h2>Conteo de productos por categorias TOTAL</h2>
+        {% for conteo_productos in conteo_productos_categorias_total %}
+            <p>{{conteo_productos[0]}}: {{conteo_productos[1]}}</p>
+        {% endfor %}
+    </div>
+
+</body>
+</html>

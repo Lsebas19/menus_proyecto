@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>cateogrias de menú</title>
+    <style>
+        div{
+            padding: 10px;
+            width: 100%;
+            height: 180px;
+            display: flex;
+            align-items: center;
+            border: solid 1px #000;
+        }
+        img{
+            width: 180px;
+            height: 100%;
+            margin-right: 30px;
+        }
+
+        .texto{
+            display: block;
+            border: none;
+        }
+    </style>
+</head>
+<body>
+    <h2>Menú: {{menu[0][1]}}</h2>
+
+    <a href="/asignarCategoriasMenu/{{id}}">Asignar Categorias</a><br>
+    <a href="/misMenus">salir</a>
+    {% for categorias in categoria %}
+        <h2>{{categorias[2]}}</h2>
+        <br>
+        {% for productos in producto %}
+            {% if productos[5] == categorias[0] %}
+                <div>
+                    <img src="/uploads/{{productos[1]}}" alt="">
+                    <div class="texto">
+                        <p>{{productos[0]}}</p>
+                        <p>{{productos[2]}}</p>
+                        <p>{{productos[3]}}</p>
+                        <p>{{productos[4]}}</p>
+                        {% if productos[8] == 1 %}
+                            <button id="ocultar_{{productos[6]}}" onclick="ocultarProducto('{{productos[6]}}')">ocultar</button>
+                        {% else %}
+                            <button id="ocultar_{{productos[6]}}" onclick="ocultarProducto('{{productos[6]}}')">Mostrar</button>
+                        {% endif %}
+                    </div>
+                     
+                </div>
+               
+            {% endif %}
+        {% endfor %}
+        <p>--------------------------------------------------------</p>
+    {% endfor %}
+
+    <script>
+        // URLs de los microservicios
+
+        // --- FUNCIONES DE CONSUMO (CRUD: READ) ---
+
+        async function ocultarProducto(id) {
+            
+            
+            // Petición GET al microservicio de productos
+            const response = await fetch("/ocultarProducto/"+id, { method: 'POST' });
+            const respuesta = await response.json();
+            const ocultar = document.getElementById("ocultar_"+id)
+
+            if (respuesta.valor == 0){
+                ocultar.textContent = "Mostrar";
+            }else{
+                ocultar.textContent = "ocultar";
+            };
+            
+
+        }
+
+
+    </script>
+</body>
+</html>

@@ -14,8 +14,9 @@ def productos():
         if productos_resultado == "no tiene empresa":
             return redirect("/crearEmpresa")
 
+
         #renderiza el html con los productos recolectados
-        return render_template("productos.html", producto = productos_resultado)
+        return render_template("productos.html",contador_productos = len(productos_resultado) ,producto = productos_resultado)
     else:
         return redirect("/")
 
@@ -177,7 +178,11 @@ def eliminarProducto(id):
         resultado = mi_producto.eliminarProducto(id)
 
         #condicional que verifica si se eliminó el producto
-        if resultado == "producto eliminado":
+        if resultado == "no tiene empresa":
+            return redirect("/crearEmpresa")
+        elif resultado == "no":
+            return redirect("/cerrarSesion")
+        else:
             return redirect("/productos")
     else:
         return redirect("/")
@@ -198,9 +203,10 @@ def asignarCategoria(id):
         if resultado_nit != resultado_producto[0][7]:
             return redirect("/cerrarSesion")
         else:
+            resultado_producto = mi_producto.buscarProductoPorID(id)
             resultado_seleccionadas = mi_producto.categoriasProducto(id)
             resultado = mi_categoria.buscarCategorias()
-            return render_template("asignar_categorias.html", resul = resultado,seleccionados = resultado_seleccionadas, id = id)
+            return render_template("asignar_categorias.html", resul = resultado,seleccionados = resultado_seleccionadas, id = id, producto = resultado_producto)
     else:
         return redirect("/")
 
@@ -212,19 +218,124 @@ def comprobarAsignarCategorias(id):
 
     resultado_seleccionadas = mi_producto.categoriasProducto(id)
     resultado = mi_categoria.buscarCategorias()
+    resultado_producto = mi_producto.buscarProductoPorID(id)
     #validar errores en la sanitizacion de los id de las categorias
     if resultado_sanitizacion == "categoria invalida":
         
-        return render_template("asignar_categorias.html", resul = resultado,seleccionados = resultado_seleccionadas, id = id, msg = resultado_sanitizacion)
+        return render_template("asignar_categorias.html", resul = resultado,seleccionados = resultado_seleccionadas, id = id, producto = resultado_producto)
     else:
         resultado_asignacion = mi_producto.asignarCategorias(seleccionadas, id)
 
         if resultado_asignacion == "asignadas":
             return redirect("/productos")
         else:
-            return render_template("asignar_categorias.html", resul = resultado,seleccionados = resultado_seleccionadas, id = id, msg = resultado_asignacion)
+            return render_template("asignar_categorias.html", resul = resultado,seleccionados = resultado_seleccionadas, id = id, producto = resultado_producto)
 
 
+@web_app.route("/ocultarProducto/<id>", methods=["POST"])
+def ocultarProducto(id):
+    numero_identidad = session.get("numero_identidad")
+    empresa = mi_empresa.buscarEmpresaPorNumeroIdentidad(numero_identidad)
+
+    if empresa == "no tiene empresa":
+        return "no tiene empresa"
+    else:
+        sql = f"SELECT id_productos FROM productos WHERE id_productos = '{id}' AND nit_empresa = '{empresa}' AND estado = 1"
+
+        mi_cursor = base_datos.cursor()
+        mi_cursor.execute(sql)
+
+        resultado = mi_cursor.fetchall()
+        mi_cursor.close()
+        if len(resultado) == 0:
+            return "no"
+        else:
+
+            sql = f"SELECT visible FROM productos WHERE id_productos = '{id}' AND nit_empresa = '{empresa}' AND estado = 1"
+
+            mi_cursor = base_datos.cursor()
+            mi_cursor.execute(sql)
+
+            visible = mi_cursor.fetchall()
+            mi_cursor.close()
+            print(visible)
+            if visible[0][0] == 0:
+                
+                valor_visible = 1
+            else:
+                valor_visible = 0
+            
+            sql = f"UPDATE productos SET visible = {valor_visible} WHERE id_productos = '{id}'"
+
+            mi_cursor = base_datos.cursor()
+            mi_cursor.execute(sql)
+
+            base_datos.commit()
+            mi_cursor.close()
+            #mensaje de exito de la eliminacion del producto
+            return jsonify({"valor":valor_visible})
 
 
+@web_app.route("/traerProductos", methods = ["GET"])
+def traerProductos():
+    producto = mi_producto.buscarProductos()
 
+    return jsonify({"productos": producto})
+
+
+@web_app.route("/promocionarProducto/<id>")
+def promocionarProducto(id):
+    if session.get("login") != True:
+        return redirect("/")
+    else:
+        resultado_producto = mi_producto.buscarProductoPorID(id)
+
+        #busca el numero de identidad del usuario logueado
+        numero_identidad = session.get("numero_identidad")
+        
+        #busca el nit de la empresa del usuario logueado
+        resultado_nit = mi_empresa.buscarEmpresaPorNumeroIdentidad(numero_identidad)
+
+        #compara el nit del usuario logueado con el del producto para saber si se edita el producto de esa empresa
+        if resultado_nit != resultado_producto[0][7]:
+            return redirect("/cerrarSesion")
+        else:
+
+            #buscar todos los productos de la empresa para mostrar cuales ya han sido creados
+            resultado_buscar = mi_producto.buscarProductos()
+
+            
+            #redirigir a crear empresa si el usuario no tiene
+            if resultado_buscar == "no tiene empresa":
+                return redirect("/crearEmpresa")
+            
+            resultado_buscar = 0
+            print(resultado_buscar)
+
+            #renderizar el html de editar producto
+            return render_template("promocionar_producto.html", resultado = resultado_producto)
+
+@web_app.route("/promocionarProductoComprobar/<id>", methods = ["POST"])
+def promocionarProductoComprobar(id):
+    precio_nuevo = request.form['precio_nuevo']
+    precio_viejo = request.form['precio_viejo']
+
+    precio_productoS = re.sub(r'[^0-9]', '', precio_nuevo)
+
+    resultado_producto = mi_producto.buscarProductoPorID(id)
+    if len(precio_nuevo) > 3 and len(precio_nuevo) < 7 and precio_nuevo == precio_productoS:
+        
+        if int(precio_nuevo) < int(precio_viejo):
+            
+            resultado_promocion = mi_producto.promocionProducto(precio_nuevo,id)
+
+            if resultado_promocion == "promocionado":
+                return redirect("/productos")
+            
+        else:
+            print(precio_nuevo)
+            print(precio_viejo)
+            return render_template("promocionar_producto.html", resultado = resultado_producto, msg = "el precio de promocion no debe ser mayor ni igual al original")
+    else:
+        return render_template("promocionar_producto.html", resultado = resultado_producto, msg = "precio invalido")
+    

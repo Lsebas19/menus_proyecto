@@ -33,27 +33,33 @@
     <a href="/crearCategoria/categoria">crear categoria</a><br>
     <a href="/inicio">salir</a>
 
-    {% for categorias in categoria %}
-        <h2>{{categorias[2]}}</h2>
-        <a href="editarCategoria/{{categorias[0]}}">editar</a>
-        <br>
-        {% for productos in producto %}
-            {% if productos[5] == categorias[0] %}
-                <div>
-                    <img src="uploads/{{productos[1]}}" alt="">
-                    <div class="texto">
-                        <p>{{productos[0]}}</p>
-                        <p>{{productos[2]}}</p>
-                        <p>{{productos[3]}}</p>
-                        <p>{{productos[4]}}</p>
+    {% if contador_categorias == 0 %}
+        <h2>NO hay categorias creadas</h2>
+    {% else %}
+        {% for categorias in categoria %}
+            <h2>{{categorias[2]}}</h2>
+            <a href="editarCategoria/{{categorias[0]}}">editar</a>
+            <br>
+            <a href="/eliminarCategoria/{{categorias[0]}}">Borrar</a>
+            <br>
+            {% for productos in producto %}
+                {% if productos[5] == categorias[0] %}
+                    <div>
+                        <img src="uploads/{{productos[1]}}" alt="">
+                        <div class="texto">
+                            <p>{{productos[0]}}</p>
+                            <p>{{productos[2]}}</p>
+                            <p>{{productos[3]}}</p>
+                            <p>{{productos[4]}}</p>
+                            
+                        </div>
                         
                     </div>
-                     
-                </div>
-               
-            {% endif %}
+                
+                {% endif %}
+            {% endfor %}
+            <p>--------------------------------------------------------</p>
         {% endfor %}
-        <p>--------------------------------------------------------</p>
-    {% endfor %}
+    {% endif %}
 </body>
 </html>

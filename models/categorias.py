@@ -37,9 +37,10 @@ class Categoria :
         
         #se buscan todas las categorias que concuerden con el nit de la empresa y no esten borradas
         sql = f"SELECT * FROM categorias WHERE estado = 1 AND nit_empresa = '{resultado}'"
+        mi_cursor = base_datos.cursor()
         mi_cursor.execute(sql)
         categorias = mi_cursor.fetchall()
-
+        mi_cursor.close()
         #retorna las categorias encontradas
         return categorias
     
@@ -55,11 +56,12 @@ class Categoria :
         
         #se verifica si el nombre de la categoria ya existe para evitar en lo mayor posible las categorias duplicadas
         sql = f"SELECT nombre FROM categorias WHERE '{nombre_categoria}' = nombre AND estado = 1 AND nit_empresa = '{resultado}'"
+        mi_cursor = base_datos.cursor()
         mi_cursor.execute(sql)
 
         #recoleccion de los datos
         resultado = mi_cursor.fetchall()
-
+        mi_cursor.close()
         #condicional que verifica si el nombre de la categoria existe
         if len(resultado) == 1:
             return "categoria ya existe"
@@ -79,10 +81,11 @@ class Categoria :
             #insertar los datos de la categoria en la base de datos 
             sql = f"INSERT INTO categorias (id_categoria,nit_empresa,nombre,fecha_creacion) VALUES('{id_categoria}','{nit_empresa}','{nombre_categoria}','{fecha_creacion}')"
 
+            mi_cursor = base_datos.cursor()
             mi_cursor.execute(sql)
 
             base_datos.commit()
-
+            mi_cursor.close()
             #retorna mensaje de exito
             return "categoria creada"
     
@@ -96,10 +99,11 @@ class Categoria :
             id = random.randint(0,9999)
              
             sql = f"SELECT id_categoria FROM categorias WHERE id_categoria = '{id}'"
+            mi_cursor = base_datos.cursor()
             mi_cursor.execute(sql)
 
             resultado = mi_cursor.fetchall()
-
+            mi_cursor.close()
             if len(resultado) == 0:
                 ciclo = "no"
 
@@ -109,11 +113,11 @@ class Categoria :
     def buscarCategoriaPorID(self, id):
          #busca la categoria por medio del id
         sql = f"SELECT * FROM categorias WHERE id_categoria = '{id}'"
-
+        mi_cursor = base_datos.cursor()
         mi_cursor.execute(sql)
 
         resultado = mi_cursor.fetchall()
-
+        mi_cursor.close()
         return resultado
 
     #metodo para editar la categoria 
@@ -128,10 +132,11 @@ class Categoria :
         
         #busca si la cateogoria que quiere editar el usuario ya existe
         sql = f"SELECT nombre FROM categorias WHERE '{nombre_categoria}' = nombre AND estado = 1 AND nit_empresa = '{resultado}'"
+        mi_cursor = base_datos.cursor()
         mi_cursor.execute(sql)
-
+        
         resultado = mi_cursor.fetchall()
-
+        mi_cursor.close()
         #verifica si el usuario existe
         if len(resultado) == 1:
             return "categoria ya existe"
@@ -140,11 +145,56 @@ class Categoria :
             fecha_creacion = datetime.now()
 
             sql = f"UPDATE categorias SET nombre = '{nombre_categoria}', fecha_creacion = '{fecha_creacion}' WHERE id_categoria = '{id}'"
+            mi_cursor = base_datos.cursor()
+            mi_cursor.execute(sql)
+            
+            base_datos.commit()
+            mi_cursor.close()
+            return "categoria editada"
 
+    def eliminarCategoria(self, id):
+
+        numero_identidad = session.get("numero_identidad")
+        empresa = mi_empresa.buscarEmpresaPorNumeroIdentidad(numero_identidad)
+
+        if empresa == "no tiene empresa":
+            return "no tiene empresa"
+        else:
+            sql = f"SELECT id_categoria FROM categorias WHERE id_categoria = '{id}' AND nit_empresa = '{empresa}' AND estado = 1"
+
+            mi_cursor = base_datos.cursor()
             mi_cursor.execute(sql)
 
-            base_datos.commit()
+            resultado = mi_cursor.fetchall()
+            mi_cursor.close()
+            if len(resultado) == 0:
+                return "no"
+            else:
+                
+                sql = f"DELETE FROM productos_categorias WHERE categorias = {id} "
+                mi_cursor = base_datos.cursor()
+                mi_cursor.execute(sql)
 
-            return "categoria editada"
+                base_datos.commit()
+                mi_cursor.close()
+
+                sql = f"DELETE FROM seleccionados WHERE id_categoria = {id} "
+                mi_cursor = base_datos.cursor()
+                mi_cursor.execute(sql)
+
+                base_datos.commit()
+                mi_cursor.close()
+
+                #se cambia el estado de la categoria a 0
+                sql = f"UPDATE categorias SET estado = 0 WHERE id_categoria = '{id}'"
+
+                mi_cursor = base_datos.cursor()
+                mi_cursor.execute(sql)
+
+                base_datos.commit()
+                mi_cursor.close()
+                #mensaje de exito de la eliminacion de la categoria
+                return "categoria eliminado"
+
 
 mi_categoria = Categoria()

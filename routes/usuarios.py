@@ -212,7 +212,15 @@ def comprobarCambioContrasena():
             mi_usuario.cambiarContrasena(id,contrasena_nueva)
             return redirect("/usuario")
 
+@web_app.route("/verificarNumeroIdentidad/<id>", methods=["GET"])
+def verificarNumeroIdentidad(id):
+    sql = f"SELECT numero_identidad FROM usuarios WHERE numero_identidad = '{id}'"
+    mi_cursor = base_datos.cursor()
+    mi_cursor.execute(sql)
+    resultado = mi_cursor.fetchall()
+    mi_cursor.close()
 
-
-
-    
+    if len(resultado) == 0:
+        return jsonify({"mensaje":"si"})
+    else:
+        return jsonify({"mensaje":"usuario ya existe"})
