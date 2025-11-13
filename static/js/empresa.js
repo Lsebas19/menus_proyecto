@@ -274,3 +274,78 @@ formulario.addEventListener('submit', async function (event) {
     
 
 })
+
+
+// Jaramillo zone 
+
+// DRAG & DROP - Logo Upload
+const inputLogo = document.getElementById('inputLogo')
+const infoArchivo = document.getElementById('infoArchivo')
+const vistaPrevia = document.getElementById('vistaPreviaLogo')
+const seccionLogo = document.getElementById('seccionLogo')
+
+// Mostrar preview cuando se selecciona archivo
+function mostrarPreview(file) {
+    if (!file || !file.type.startsWith('image/')) {
+        if (infoArchivo) infoArchivo.textContent = 'Seleccione una imagen válida'
+        if (vistaPrevia) vistaPrevia.style.display = 'none'
+        return
+    }
+
+    const reader = new FileReader()
+    reader.onload = function(e) {
+        if (vistaPrevia) {
+            vistaPrevia.src = e.target.result
+            vistaPrevia.style.display = 'block'
+        }
+    }
+    reader.readAsDataURL(file)
+    if (infoArchivo) infoArchivo.textContent = file.name
+}
+
+// Listener para cambios en el input file
+if (inputLogo) {
+    inputLogo.addEventListener('change', function(e) {
+        const file = e.target.files ? e.target.files[0] : null
+        mostrarPreview(file)
+    })
+}
+
+// Drag & Drop handlers
+if (seccionLogo) {
+    // Prevenir comportamiento por defecto
+    seccionLogo.addEventListener('dragover', (e) => {
+        e.preventDefault()
+        e.stopPropagation()
+        seccionLogo.classList.add('drag-over')
+    })
+
+    seccionLogo.addEventListener('dragenter', (e) => {
+        e.preventDefault()
+        e.stopPropagation()
+        seccionLogo.classList.add('drag-over')
+    })
+
+    seccionLogo.addEventListener('dragleave', (e) => {
+        e.preventDefault()
+        e.stopPropagation()
+        seccionLogo.classList.remove('drag-over')
+    })
+
+    // Manejo del drop
+    seccionLogo.addEventListener('drop', (e) => {
+        e.preventDefault()
+        e.stopPropagation()
+        seccionLogo.classList.remove('drag-over')
+        
+        const files = e.dataTransfer.files
+        if (files && files.length > 0) {
+            if (inputLogo) {
+                inputLogo.files = files
+                // Disparar evento change manualmente
+                const event = new Event('change', { bubbles: true })
+                inputLogo.dispatchEvent(event)
+            }
+        }
+    })
+}

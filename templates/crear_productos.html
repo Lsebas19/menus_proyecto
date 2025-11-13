@@ -77,14 +77,19 @@
             
             
             <!-- Sección de subida de imagen del producto -->
-            <div class="seccion-imagen" id="seccionImagen">
+            <div class="seccion-imagen" id="seccionImagen" role="button" tabindex="0" dropzone="inputImagen">
                 <div class="contenedor-subida">
-                    <i class="fas fa-cloud-upload-alt icono-subida"></i>
-                    <p class="texto-subida">Haga clic para subir imagen del producto o arrastre una imagen PNG</p>
-                    <p class="info-archivo" id="infoArchivo">No se ha seleccionado archivo</p>
-                    <img id="vistaPreviaImagen" class="vista-previa" alt="Vista previa del producto">
+                    <!-- input tiene aria-describedby para asociar el texto del nombre/errores -->
+                    <input type="file" id="inputImagen" name="imagen_producto" class="input" accept="image/*" aria-describedby="infoArchivo" aria-label="Subir logo de la empresa">
+                    <i class="fas fa-cloud-upload-alt icono-subida" aria-hidden="true"></i>
+                    <div class="texto-wrap">
+                        <p class="texto-subida">Haga clic para subir logo o arrastre una imagen PNG</p>
+                        <p class="info-archivo" id="infoArchivo">No se ha seleccionado archivo</p>
+                    </div>
+                    <img id="vistaPreviaImagen" class="vista-previa" alt="Vista previa de la imagen subida">
                 </div>
-                <input type="file" id="inputImagen" name="imagen_producto" class="oculto">
+                <!-- región live para anunciar errores o estados accesibles -->
+                <div id="mensajeImagen" class="oculto" aria-live="polite"></div>
             </div>
             
             <!-- Contenedor de botones -->

@@ -235,6 +235,75 @@ window.onload = () => {
 
 
 
+// Jaramillo zone — limpieza y encapsulación
+(function() {
+    // DRAG & DROP - Imagen Upload (encapsulado para evitar variables globales)
+    const inputImagen = document.getElementById('inputImagen');
+    const infoArchivo = document.getElementById('infoArchivo');
+    const vistaPrevia = document.getElementById('vistaPreviaImagen');
+    const seccionImagen = document.getElementById('seccionImagen');
+
+    // Mostrar preview cuando se selecciona archivo
+    function mostrarPreview(file) {
+        if (!file || !file.type || !file.type.startsWith('image/')) {
+            if (infoArchivo) infoArchivo.textContent = 'Seleccione una imagen válida';
+            if (vistaPrevia) {
+                vistaPrevia.style.display = 'none';
+                vistaPrevia.src = '';
+            }
+            return;
+        }
+
+        const reader = new FileReader();
+        reader.onload = function(e) {
+            if (vistaPrevia) {
+                vistaPrevia.src = e.target.result;
+                vistaPrevia.style.display = 'block';
+            }
+        };
+        reader.readAsDataURL(file);
+        if (infoArchivo) infoArchivo.textContent = file.name;
+    }
+
+    // Listener para cambios en el input file
+    if (inputImagen) {
+        inputImagen.addEventListener('change', function(e) {
+            const file = e.target.files?.[0] ?? null;
+            mostrarPreview(file);
+        });
+    }
+
+    // Drag & Drop handlers (con manejadores reutilizables)
+    if (seccionImagen) {
+        const addDragOver = (e) => { e.preventDefault(); e.stopPropagation(); seccionImagen.classList.add('drag-over'); };
+        const removeDragOver = (e) => { e.preventDefault(); e.stopPropagation(); seccionImagen.classList.remove('drag-over'); };
+
+        seccionImagen.addEventListener('dragover', addDragOver);
+        seccionImagen.addEventListener('dragenter', addDragOver);
+        seccionImagen.addEventListener('dragleave', removeDragOver);
+
+        seccionImagen.addEventListener('drop', (e) => {
+            e.preventDefault();
+            e.stopPropagation();
+            seccionImagen.classList.remove('drag-over');
+
+            const files = e.dataTransfer?.files;
+            if (files && files.length > 0 && inputImagen) {
+                // Algunos navegadores no permiten asignar files directamente; intentamos y si falla usamos DataTransfer
+                try {
+                    inputImagen.files = files;
+                } catch (err) {
+                    const dt = new DataTransfer();
+                    for (let i = 0; i < files.length; i++) dt.items.add(files[i]);
+                    inputImagen.files = dt.files;
+                }
+                // Disparar evento change manualmente
+                const event = new Event('change', { bubbles: true });
+                inputImagen.dispatchEvent(event);
+            }
+        });
+    }
+})(); 
 
 
     

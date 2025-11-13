@@ -9,7 +9,7 @@
     <form action="/promocionarProductoComprobar/{{resultado[0][0]}}" method="post">
         <p>precio viejo:</p>
         <input type="text" value="{{resultado[0][5]}}" name="precio_viejo" readonly>
-        <input type="text" name="precio_nuevo" placeholder="precio nuevo">
+        <input type="text" name="precio_nuevo" placeholder="precio nuevo" maxlength="6" max="6" required>
         <button type="submit">Promocionar</button>
         {{msg}}
     </form>
