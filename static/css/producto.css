@@ -271,3 +271,111 @@
                 padding: 15px;
             }
         }
+
+        /*Jaramillo zone */
+
+        /* Sección de subida de archivos */
+        .seccion-imagen {
+            background: linear-gradient(180deg, #ffffff 0%, #fffaf8 100%);
+            border: 2px dashed #8FBC8F;
+            border-radius: 12px;
+            padding: 18px;
+            margin: 20px 0;
+            text-align: center;
+            transition: all 0.18s ease-in-out;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        /* Estado visual al arrastrar */
+        .seccion-imagen.drag-over,
+        .seccion-imagen:hover {
+            border-color: #E97451;
+            background: #fff5ef;
+            box-shadow: 0 6px 18px rgba(233,116,81,0.08);
+        }
+
+        .contenedor-subida {
+            display: flex;
+            flex-direction: row;
+            align-items: center;
+            gap: 16px;
+            width: 100%;
+            max-width: 420px;
+            padding: 6px 12px;
+        }
+
+        .icono-subida {
+            font-size: 42px;
+            color: #8FBC8F;
+            transition: all 0.18s;
+            flex: 0 0 auto;
+        }
+
+        .seccion-imagen.drag-over .icono-subida {
+            color: #E97451;
+            transform: scale(1.08);
+        }
+
+        .texto-subida {
+            color: #36454F;
+            font-size: 15px;
+            margin-bottom: 0;
+            text-align: left;
+        }
+
+        .info-archivo {
+            color: #666;
+            font-size: 13px;
+            margin-top: 4px;
+            text-align: left;
+            word-break: break-all;
+        }
+
+        /* Vista previa más grande y centrada a la derecha */
+        .vista-previa {
+            width: 96px;
+            height: 96px;
+            border-radius: 8px;
+            object-fit: contain;
+            margin-top: 0;
+            display: none;
+            border: 1px solid #e6e6e6;
+            background: #fff;
+            padding: 6px;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.04);
+            flex: 0 0 96px;
+        }
+
+        /* animación de entrada para la vista previa */
+        .vista-previa.fade-in{
+            animation: fadeIn 220ms ease-in-out;
+            display: block !important;
+        }
+
+        @keyframes fadeIn{
+            from { opacity: 0; transform: scale(0.98); }
+            to { opacity: 1; transform: scale(1); }
+        }
+
+        .texto-wrap{ text-align: left; }
+
+        /* Hacer que el input file sea una capa invisible que cubre el contenedor
+           Esto garantiza que click y arrastrar funcionen de forma nativa en todos
+           los navegadores sin depender únicamente de llamadas a input.click(). */
+        .seccion-imagen {
+            position: relative; /* necesario para el input absolute */
+        }
+
+        .seccion-imagen input[type="file"],
+        .input[type="file"] {
+            position: absolute;
+            inset: 0; /* top:0; right:0; bottom:0; left:0 */
+            width: 100%;
+            height: 100%;
+            opacity: 0;
+            cursor: pointer;
+            z-index: 5;
+        }
