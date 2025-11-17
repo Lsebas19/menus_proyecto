@@ -11,6 +11,8 @@
         <input type="text" value="{{resultado[0][5]}}" name="precio_viejo" readonly>
         <input type="text" name="precio_nuevo" placeholder="precio nuevo" maxlength="6" max="6" required>
         <button type="submit">Promocionar</button>
+
+        <a href="/eliminarPromocionProducto/{{resultado[0][0]}}">eliminar promocion</a>
         {{msg}}
     </form>
 </body>

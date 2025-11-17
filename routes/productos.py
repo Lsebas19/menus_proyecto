@@ -323,11 +323,17 @@ def promocionarProductoComprobar(id):
     precio_productoS = re.sub(r'[^0-9]', '', precio_nuevo)
 
     resultado_producto = mi_producto.buscarProductoPorID(id)
+    numero_identidad = session.get("numero_identidad")
+    
     if len(precio_nuevo) > 3 and len(precio_nuevo) < 7 and precio_nuevo == precio_productoS:
         
         if int(precio_nuevo) < int(precio_viejo):
+            empresa = mi_empresa.buscarEmpresaPorNumeroIdentidad(numero_identidad)
             
-            resultado_promocion = mi_producto.promocionProducto(precio_nuevo,id)
+            if empresa == "no tiene empresa":
+                return redirect("/crearEmpresa")
+            else:
+                resultado_promocion = mi_producto.promocionProducto(precio_nuevo,id, empresa)
 
             if resultado_promocion == "promocionado":
                 return redirect("/productos")
@@ -338,4 +344,16 @@ def promocionarProductoComprobar(id):
             return render_template("promocionar_producto.html", resultado = resultado_producto, msg = "el precio de promocion no debe ser mayor ni igual al original")
     else:
         return render_template("promocionar_producto.html", resultado = resultado_producto, msg = "precio invalido")
+
+@web_app.route("/eliminarPromocionProducto/<id>")
+def eliminarPromocionProductos(id):
+    numero_identidad = session.get("numero_identidad")
+    
+    empresa = mi_empresa.buscarEmpresaPorNumeroIdentidad(numero_identidad)
+    
+    if empresa == "no tiene empresa":
+        return redirect("/crearEmpresa")
+    else:
+        mi_producto.eliminarPromocionProducto(id,empresa)
+        return redirect("/productos")
     

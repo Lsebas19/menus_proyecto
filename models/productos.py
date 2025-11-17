@@ -459,8 +459,8 @@ class Productos:
                 return "categoria invalida"
         return "campos correctos"
 
-    def promocionProducto(self, precio_nuevo, id):
-        sql = f"UPDATE productos SET promocion = {precio_nuevo} WHERE id_productos = '{id}'"
+    def promocionProducto(self, precio_nuevo, id, empresa):
+        sql = f"UPDATE productos SET promocion = {precio_nuevo} WHERE id_productos = '{id}' AND nit_empresa = '{empresa}'"
 
         mi_cursor = base_datos.cursor()
 
@@ -472,7 +472,18 @@ class Productos:
 
         return "promocionado"
 
+    def eliminarPromocionProducto(self,id_producto,nit_empresa):
+        sql = f"UPDATE productos SET promocion = 0 WHERE id_productos = '{id_producto}' AND nit_empresa = '{nit_empresa}' AND estado = '1'"
+        
+        mi_cursor = base_datos.cursor()
 
+        mi_cursor.execute(sql)
+
+        base_datos.commit()
+
+        mi_cursor.close()
+        
+        return "eliminado"
     
 
 mi_producto = Productos()
