@@ -10,4 +10,4 @@ from routes.visualizar_menu import *
 
 #arranque del programa
 if  __name__ == "__main__":
-    web_app.run(host="0.0.0.0", debug = True, port="5090")
+    web_app.run(host="0.0.0.0", debug = True, port="5080")

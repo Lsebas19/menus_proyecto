@@ -13,8 +13,8 @@ class Empresas:
         nombre_empresaS = re.sub(r'[^a-zA-Z0-9\ ]', '', nombre_empresa)
         correo_empresaS = re.sub(r'[^a-z0-9\.\-\_]+@+[^a-z0-9]+.+[^a-z\.]', '', correo_empresa)
         paisS = re.sub(r'[^a-zA-Z]', '', pais)
-        ciudadS= re.sub(r'[^a-zA-Z]', '', ciudad)
-        direccionS = re.sub(r'[^a-zA-Z0-9\#\-]', '', direccion)
+        ciudadS= re.sub(r'[^a-zA-Z\ ]', '', ciudad)
+        direccionS = re.sub(r'[^a-zA-Z0-9\#\-\ ]', '', direccion)
         telefonoS = re.sub(r'[^0-9]', '', telefono) 
 
         #validacion del tamaño de los campos y si cumplen con lo estipulado

@@ -20,13 +20,14 @@ def estadisticas():
             conteo_productos = len(conteo_productos)
 
             menu = mi_menu.menuAsignado(empresa)
-
+            conteo_promocionados = mis_estadisticas.contarProductosPromocionados(empresa)
+            conteo_productos_categorias_total = mis_estadisticas.contarProductosPorCategoriasTotales(empresa)
+            conteo_visualizaciones = mis_estadisticas.contarVisualizacionesMenu(empresa)
+            
             if menu == "nada":
-                return render_template("estadisticas.html", conteo_productos = conteo_productos, menu = menu)
+                return render_template("estadisticas.html", conteo_productos = conteo_productos, menu = menu, conteo_productos_categorias_total = conteo_productos_categorias_total, visualizaciones = conteo_visualizaciones, promocionados = conteo_promocionados)
             else:
                 categorias_menu = mi_menu.buscarCategoriasMenu(menu)
-                conteo_productos_categorias_total = mis_estadisticas.contarProductosPorCategoriasTotales(empresa)
-
                 conteo_productos_categorias_menu = mis_estadisticas.contarProductosPorCategoriasMenu(menu)
-
-                return render_template("estadisticas.html", conteo_productos = conteo_productos, menu = menu,categorias_menu = categorias_menu, conteo_productos_categorias_total = conteo_productos_categorias_total,conteo_productos_categorias_menu = conteo_productos_categorias_menu)
+                print(conteo_promocionados)
+                return render_template("estadisticas.html", conteo_productos = conteo_productos, menu = menu,categorias_menu = categorias_menu, conteo_productos_categorias_total = conteo_productos_categorias_total,conteo_productos_categorias_menu = conteo_productos_categorias_menu, visualizaciones = conteo_visualizaciones, promocionados = conteo_promocionados)

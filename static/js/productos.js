@@ -186,7 +186,7 @@ precio.addEventListener("input", function(){
         activarBoton()
     }
 
-    else if (valor_precio.length < 5 || valor_precio.length > 15){
+    else if (valor_precio.length < 7 || valor_precio.length > 3){
         campo_error_precio.textContent = "el precio debe estar entre 1.000 y 999.999";
         precio.style.border = "solid 1px red";
         campo_error_precio.style.color = "#f00";

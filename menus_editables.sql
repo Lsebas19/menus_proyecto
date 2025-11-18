@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Servidor: 127.0.0.1
--- Tiempo de generación: 28-10-2025 a las 13:42:43
+-- Tiempo de generación: 18-11-2025 a las 13:52:25
 -- Versión del servidor: 10.4.32-MariaDB
 -- Versión de PHP: 8.2.12
 
@@ -89,7 +89,8 @@ CREATE TABLE `productos` (
   `fecha_creacion` datetime DEFAULT NULL,
   `nit_empresa` varchar(10) DEFAULT NULL,
   `estado` tinyint(1) NOT NULL DEFAULT 1,
-  `visible` tinyint(1) NOT NULL DEFAULT 1
+  `visible` tinyint(1) NOT NULL DEFAULT 1,
+  `promocion` int(6) NOT NULL DEFAULT 0
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 -- --------------------------------------------------------
@@ -140,6 +141,20 @@ CREATE TABLE `usuarios` (
 
 INSERT INTO `usuarios` (`numero_identidad`, `nombre`, `correo`, `contrasena`, `fecha_creacion`, `estado`, `rol`) VALUES
 ('1234567891', 'Sebatian Loaiza', 'juansebas190gmail.com', '1ae69ab2d28724430a0d45e62349755826329d6ad6b1f1da7ccf8ed78119cd3d2e8ec0c276daac0eb241d034189fc408d86e073f456f8dab85213a185ee8858e', '2025-09-08 18:25:00', 1, 1);
+
+-- --------------------------------------------------------
+
+--
+-- Estructura de tabla para la tabla `vistas`
+--
+
+CREATE TABLE `vistas` (
+  `id` varchar(6) DEFAULT NULL,
+  `ip_publica` varchar(200) DEFAULT NULL,
+  `fecha` datetime DEFAULT NULL,
+  `nit_empresa` varchar(10) DEFAULT NULL,
+  `ip_local` varchar(50) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Índices para tablas volcadas
@@ -196,6 +211,12 @@ ALTER TABLE `usuarios`
   ADD PRIMARY KEY (`numero_identidad`);
 
 --
+-- Indices de la tabla `vistas`
+--
+ALTER TABLE `vistas`
+  ADD KEY `nit_empresa` (`nit_empresa`);
+
+--
 -- Restricciones para tablas volcadas
 --
 
@@ -237,6 +258,12 @@ ALTER TABLE `productos_categorias`
 ALTER TABLE `seleccionados`
   ADD CONSTRAINT `fk_categoria_seleccionada` FOREIGN KEY (`id_categoria`) REFERENCES `categorias` (`id_categoria`),
   ADD CONSTRAINT `seleccionados_ibfk_1` FOREIGN KEY (`menu`) REFERENCES `menus` (`id_menu`);
+
+--
+-- Filtros para la tabla `vistas`
+--
+ALTER TABLE `vistas`
+  ADD CONSTRAINT `vistas_ibfk_1` FOREIGN KEY (`nit_empresa`) REFERENCES `empresas` (`nit_empresa`);
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
