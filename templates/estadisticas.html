@@ -1,28 +1,136 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="es">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+    <title>Estadísticas - Edition Menús</title>
+    <link rel="stylesheet" href="../static/css/estadisticas.css">
 </head>
 <body>
-    <a href="/inicio">Salir</a>
-    <p>Conteo de personas que vieron el menu hoy: {{visualizaciones}}</p>
-    <p>conteo de productos promocionados: {{promocionados}}</p>
-    <p>conteo de productos totales: {{conteo_productos}}</p>
-    <div>
-        <h2>Conteo de productos del menu asignado:</h2>
-        {% for conteo_menu in conteo_productos_categorias_menu %}
-            <p>{{conteo_menu[0]}}: {{conteo_menu[1]}}</p>
-        {% endfor %}
-    </div>
+    <!-- ====== BARRA LATERAL (se abre con hover) ====== -->
+    <aside class="barra-lateral contraida" id="barraLateral">
+        <link rel="stylesheet" href="../static/css/barra_lateral.css">
+        
+        <a href="/crearMenu" class="elemento-barra">
+            <span>Crear menú</span>
+        </a>
+        <a href="/misMenus" class="elemento-barra">
+            <span>Mis menús</span>
+        </a>
+        <a href="/categorias" class="elemento-barra">
+            <span>Categorías</span>
+        </a>
+        <a href="/visualizarMenu" class="elemento-barra">
+            <span>Visualizar</span>
+        </a>
+        <a href="/productos" class="elemento-barra">
+            <span>Productos</span>
+        </a>
+        <a href="/qrMenu" class="elemento-barra">
+            <span>QR menú</span>
+        </a>
+        <a href="/empresa" class="elemento-barra">
+            <span>Mi empresa</span>
+        </a>
+        <a href="/cerrarSesion" class="elemento-barra">
+            <span>Cerrar sesión</span>
+        </a>
+        <!-- PIE DE LA BARRA LATERAL -->
+        <div class="pie-barra-lateral">
+            <img src="../static/imagenes/Sena_Colombia_logo.svg.png" alt="Logo_sena" id="Logo_sena">
+            <div style="margin-bottom:8px">SENA</div>
+            <div>ADSO 2931527</div>
+            <div id="participantes">
+                Juan Esteban Jaramillo<br>
+                Maria Teresa Quintana<br>
+                Jean Blade Valero<br>
+                Juan Sebastián Loaiza
+            </div>
+        </div>
+    </aside>
 
-    <div>
-        <h2>Conteo de productos por categorias TOTAL</h2>
-        {% for conteo_productos in conteo_productos_categorias_total %}
-            <p>{{conteo_productos[0]}}: {{conteo_productos[1]}}</p>
-        {% endfor %}
-    </div>
+    <!-- ====== ENCABEZADO ====== -->
+    <header>
+        <img src="../static/imagenes/proyecto.png" alt="logo" id="logo" >
+        
+        <div class="encabezado-izquierda">
+            <div class="aviso-plan">Te quedan 15 días de plan</div>
+            <button class="boton-icono" width="50" style="background:var(--accent);color:#fff">Actualiza tu plan</button>
+        </div>
+        <div class="encabezado-derecha">
+            <button class="boton-icono" id="btn_empresa">
+                <img src="../static/imagenes/edificio.png" alt="btn_empresa" id="btn_empresa">
+            </button>
+            <button class="boton-icono" id="btn_estadisticas">
+                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-chart-no-axes-combined-icon lucide-chart-no-axes-combined"><path d="M12 16v5"/><path d="M16 14v7"/><path d="M20 10v11"/><path d="m22 3-8.646 8.646a.5.5 0 0 1-.708 0L9.354 8.354a.5.5 0 0 0-.707 0L2 15"/><path d="M4 18v3"/><path d="M8 14v7"/></svg>
+            </button>
+            <button class="boton-icono" id="btn_Buscar">
+                <img src="../static/imagenes/lupa-de-busqueda.png" alt="btn_Buscar" id="btn_Buscar">
+            </button>
+        </div>
+    </header>
 
+    <!-- ====== CONTENIDO PRINCIPAL ====== -->
+    <section id="contenido">
+        <main id="contenidoPrincipal">
+            <h1 style="color:#333;margin-bottom:24px">GENERAL</h1>
+
+            <!-- ====== FILA DE ESTADÍSTICAS ====== -->
+            <div class="fila-estadisticas">
+                <div class="tarjeta-estadistica">
+                    <div class="etiqueta-estadistica">VISUALIZACIONES DE HOY</div>
+                    <div class="valor-estadistica">{{visualizaciones}}</div>
+                </div>
+                <div class="tarjeta-estadistica">
+                    <div class="etiqueta-estadistica">PRODUCTOS PROMOCIONADOS</div>
+                    <div class="valor-estadistica">{{promocionados}}</div>
+                </div>
+            </div>
+
+            <!-- ====== PANEL: MENU ASIGNADO ====== -->
+            <div class="panel" id="panelMenuAsignado">
+                <div class="encabezado-panel">
+                    <span>MENU ASIGNADO</span>
+                    <button class="boton-alternar-panel abierto" onclick="alternarPanel(this)">▲</button>
+                </div>
+                <div class="contenido-panel abierto" id="contenidoMenuAsignado">
+                    <ul class="lista-items">
+                        {% for conteo_menu in conteo_productos_categorias_menu %}
+                            <li>
+                                <span class="etiqueta-item">{{conteo_menu[0]}}</span>
+                                <span class="valor-item">{{conteo_menu[1]}}</span>
+                            </li>
+                        {% endfor %}
+                    </ul>
+                    {% if not conteo_productos_categorias_menu %}
+                        <p style="color:#999;text-align:center;padding:20px">Sin datos disponibles</p>
+                    {% endif %}
+                </div>
+            </div>
+
+            <!-- ====== PANEL: CONTEO DE PRODUCTOS ====== -->
+            <div class="panel" id="panelConteoProductos">
+                <div class="encabezado-panel">
+                    <span>CONTEO DE PRODUCTOS</span>
+                    <button class="boton-alternar-panel abierto" onclick="alternarPanel(this)">▲</button>
+                </div>
+                <div class="contenido-panel abierto" id="contenidoConteoProductos">
+                    <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:16px">
+                        {% for conteo_productos in conteo_productos_categorias_total %}
+                            <div style="padding:12px;background:var(--light-bg);border-radius:6px;border-left:4px solid var(--accent)">
+                                <div class="tarjeta-conteo-nombre">{{conteo_productos[0]}}</div>
+                                <div class="tarjeta-conteo-valor">{{conteo_productos[1]}}</div>
+                            </div>
+                        {% endfor %}
+                    </div>
+                    {% if not conteo_productos_categorias_total %}
+                        <p style="color:#999;text-align:center;padding:20px">Sin datos disponibles</p>
+                    {% endif %}
+                </div>
+            </div>
+        </main>
+    </section>
+    <!-- ====== SCRIPTS ====== -->
+    <script src="../static/js/estadisticas.js"></script>
 </body>
 </html>

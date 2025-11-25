@@ -1,0 +1,203 @@
+/* ====== ANIMACIONES ====== */
+@keyframes deslizarAbierto {
+    from {
+        opacity: 0;
+        max-height: 0;
+        transform: translateY(-10px);
+    }
+    to {
+        opacity: 1;
+        max-height: 1000px;
+        transform: translateY(0);
+    }
+}
+
+@keyframes deslizarCerrado {
+    from {
+        opacity: 1;
+        max-height: 1000px;
+        transform: translateY(0);
+    }
+    to {
+        opacity: 0;
+        max-height: 0;
+        transform: translateY(-10px);
+    }
+}
+
+/* ====== ENCABEZADO ====== */
+header {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: var(--header-height);
+    background: #fff;
+    border-bottom: 1px solid #eee;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0 20px;
+    z-index: 100;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+}
+
+.encabezado-izquierda,
+.encabezado-derecha {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+#logo {
+    width: 137px;
+    height: 128px;
+    object-fit: contain;
+    display: fixed;
+    translate: -25px;
+}
+
+
+
+#contenido{
+    translate: -10px;
+}
+
+.aviso-plan {
+    background: var(--light-bg);
+    padding: 8px 16px;
+    border-radius: 4px;
+    font-size: 1.0rem;
+    color: #333;
+    translate: 20%;
+}
+
+.boton-icono {
+    width: 158px;
+    height: 45px;
+    border-radius: 5%;
+    translate: 45px;
+    border: none;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.2rem;
+    transition: background 0.2s;
+}
+
+.boton-icono:hover {
+    background: #e0e0e0;
+}
+
+#btn_empresa {
+    width: 20px;
+    height: 20px;
+}
+
+#btn_estadisticas{
+    
+width: 40px;
+    
+height: 40px;
+    
+border-radius: 50%;
+}
+
+#btn_Buscar {
+    width: 25px;
+    height: 25px;
+}
+
+/* ====== BARRA LATERAL (se abre con hover) ====== */
+.barra-lateral {
+    position: fixed;
+    left: 0;
+    top: var(--header-height);
+    bottom: 0;
+    width: var(--sidebar-width);
+    background: var(--sidebar-bg);
+    border-right: 1px solid #ddd;
+    overflow-y: auto;
+    transition: transform 0.3s ease;
+    z-index: 50;
+    display: flex;
+    flex-direction: column;
+}
+
+.barra-lateral.contraida {
+    transform: translateX(-100%);
+}
+
+
+
+.barra-lateral:hover,
+.barra-lateral.abierta {
+    transform: translateX(0);
+}
+
+/* Zona de activación invisible en el borde izquierdo */
+body::before {
+    content: '';
+    position: fixed;
+    left: 0;
+    top: var(--header-height);
+    bottom: 0;
+    width: 10px;
+    z-index: 45;
+    cursor: pointer;
+}
+
+/* Elemento de navegación en la barra lateral */
+.elemento-barra {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 6px;
+    padding: 16px 8px;
+    text-decoration: none;
+    color: #333;
+    font-size: 0.75rem;
+    font-weight: 600;
+    border: none;
+    background: transparent;
+    cursor: pointer;
+    text-align: center;
+    transition: background 0.2s, color 0.2s;
+    position: relative;
+}
+
+.elemento-barra:hover {
+    background: rgba(233, 116, 81, 0.1);
+}
+
+.elemento-barra.activo {
+    background: var(--accent);
+    color: #fff;
+}
+
+/* Pie de la barra lateral con información SENA */
+.pie-barra-lateral {
+    margin-top: auto;
+    padding: 16px 8px;
+    text-align: center;
+    font-size: 0.7rem;
+    color: #666;
+    border-top: 1px solid #ddd;
+}
+
+#Logo_sena {
+    width: 60px;
+    margin-bottom: 8px;
+}
+
+button#btn_estadisticas {
+    width: 50px;
+    height: 50px;
+}
+
+button#btn_empresa {
+    width: 50px;
+    height: 50px;
+    border-radius: 50px;
+}
