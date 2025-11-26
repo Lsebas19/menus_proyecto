@@ -4,10 +4,64 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Inicio admin | menus</title>
+    <link rel="stylesheet" href="../static/css/admin.css">
 </head>
 <body>
-    <h2> hola {{nombre}}</h2>
-    <a href="/crearUsuario">crear usuario</a>
-    <a href="/cerrarSesion">salir</a>
+    <main>
+        <header>
+            <div id="enInicio">
+                <button type="button" onclick="location.href='/cerrarSesion'">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-log-out-icon lucide-log-out"><path d="m16 17 5-5-5-5"/><path d="M21 12H9"/><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/></svg>
+                </button>
+                
+                <div>
+                    <h2> hola {{nombre}}</h2>
+                </div>
+            </div>
+            <div id="conteo">
+                <p>Usuarios creados: {{usuarios_creados}}</p>
+            </div>
+        </header>
+            <div id="contenido-panel">
+                <div id="enUsuarios">
+                    <div>
+                        <h3>Usuarios</h3>
+                    </div>
+                    <div>
+                        <button type="button" onclick="location.href='/crearUsuario'" id="crearUsuario">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-user-round-plus-icon lucide-user-round-plus"><path d="M2 21a8 8 0 0 1 13.292-6"/><circle cx="10" cy="8" r="5"/><path d="M19 16v6"/><path d="M22 19h-6"/></svg>
+                        </button>
+                    </div>
+                </div>
+                <div>
+                    <table id="Usuarios">
+                        <thead>
+                                <th>NOMBRE</th>
+                                <th>CORREO ELECTRONICO</th>
+                                <th>N°DOCUMENTACION</th>
+                        </thead>
+                        <tbody>
+                                
+                                <tr>
+                                    <td>{{usuario[1]}}</td>
+                                    <td>{{usuario[3]}}</td>
+                                    <td>{{usuario[4]}}</td>
+                                    <td>
+                                        <button onclick="location.href='/editarUsuario'">
+                                            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-square-pen-icon lucide-square-pen"><path d="M12 3H5a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"/><path d="M18.375 2.625a1 1 0 0 1 3 3l-9.013 9.014a2 2 0 0 1-.853.505l-2.873.84a.5.5 0 0 1-.62-.62l.84-2.873a2 2 0 0 1 .506-.852z"/></svg>
+                                        </button>
+                                    </td>
+                                    <td>
+                                        <button onclick="location.href='/eliminarUsuario'">
+                                            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-user-round-x-icon lucide-user-round-x"><path d="M2 21a8 8 0 0 1 11.873-7"/><circle cx="10" cy="8" r="5"/><path d="m17 17 5 5"/><path d="m22 17-5 5"/></svg>
+                                        </button>
+                                    </td>
+                                </tr>
+                                
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+    </main>
 </body>
 </html>

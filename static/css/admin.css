@@ -1,0 +1,111 @@
+*{
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+:root {
+    --header-height: 128px;
+    --accent: #E97451;
+    --dark-tile: #2f3a3e;
+    --light-bg: #e9e9e9;
+    --gray-black: #36454f;
+    --yellow-accent: #f5f5dc;
+}   
+body {
+    font-family: Segoe UI, Arial, sans-serif;
+    background: #fff;
+}
+/* ====== CONTENIDO PRINCIPAL ====== */
+main {
+    margin-left: var(--sidebar-width);
+    margin-top: var(--header-height);
+    padding: 24px;
+    background: var(--yellow-accent);
+    min-height: calc(100vh - var(--header-height));
+    transition: margin-left 0.3s ease;
+}
+* button {
+    cursor: pointer;
+    font-family: 'Arial Nova', sans-serif;
+    font-weight: 600;
+    border: none;
+    background: var(--accent);
+}
+
+/* ====== BARRA SUPERIOR ====== */
+header {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: var(--header-height);
+    background: var(--light-bg);
+    display: flex;
+    align-items: center;
+    padding: 0 24px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+    z-index: 1000;
+
+}
+header #enInicio {
+    display: flex;
+    align-items: center;
+    flex-grow: 1;
+}
+
+header h2 {
+    color: var(--gray-black);
+    font-size: 1.5rem;
+    font-weight: 700;
+    font-family: 'Arial Nova', sans-serif;
+}
+header p{
+    color: var(--accent);
+    font-size: 1rem;
+    font-weight: 500;
+    font-family: 'Arial Nova', sans-serif;
+    margin-left: 15px;
+}
+
+
+
+
+/* ====== SECCIÓN DE USUARIOS ====== */
+
+div#enUsuarios {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+div h3#enUsuarios {
+    color: var(--light-bg);
+    font-size: 1.2rem;
+    font-weight: 500;
+    font-family: 'Arial Nova', sans-serif;
+    margin-left: 15px;
+}
+div#contenido-panel {
+    background: var(--gray-black);
+    padding: 20px;
+    border-radius: 8px;
+    margin-top: 20px;
+    color: var(--light-bg);
+}
+table#Usuarios{
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 20px;
+    background: var(--gray-black);
+    color: var(--light-bg);
+    border: none;
+}
+table#Usuarios th, table#Usuarios td {
+    padding: 12px 15px;
+    border: 1px solid var(--light-bg);
+    text-align: left;
+}
+table#Usuarios th {
+    background: var(--accent);
+}
+
