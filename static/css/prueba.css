@@ -1,0 +1,370 @@
+*{
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Poppins', sans-serif;
+}
+
+:root {
+    --header-height: 100px;
+    --sidebar-width: 120px;
+    --accent: #E97451;
+    --dark-tile: #2f3a3e;
+    --light-bg: #E9E9E9;
+    --green: #8fbc8f;
+    --yelow: #f5f5dc;
+}
+
+main {
+    padding: 20px;
+    height: 100%;
+    width: 100%;
+    background: var(--yelow);
+    min-height: calc(100vh - var(--header-height));
+}
+
+body {
+    background-color: #F5F5F5;
+    margin: 0;
+    padding: 0;
+    font-family: 'Poppins', sans-serif;
+}
+header {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: var(--header-height);
+    width: 100%;
+    background: var(--light-bg);
+    border-bottom: 1px solid #eee;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0 20px;
+    z-index: 100;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+}
+
+/* ====== ESTILOS DEL HEADER DE ESTADÍSTICAS ====== */
+#header_estadisticas{
+    position: relative;
+    width: 100%;
+    height: var(--header-height);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0 20px;
+    background: #E9E9E9;
+    flex-direction: column;
+}
+header #titulo{
+    font-size: 1rem;
+    color: #333;
+    text-align: center;
+    align-self: center;
+    display: flex;
+    position: absolute;
+    margin-top: 30px;
+    right: 0;
+}
+#header_estadisticas button{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    padding: 10px 20px;
+    font-size: 1rem;
+    position: absolute;
+    width: 125px;
+    height: 100px;
+    background-color: transparent;
+    color: black;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    align-self: self-start;
+    translate: -45px;
+    gap: 6px;
+}
+#header_estadisticas button svg{
+    width: 50px;
+    height: 50px;
+}
+#header_estadisticas button.activo:hover{
+    background-color: #E97451;
+    color: white;
+}
+
+
+
+/* ====== BARRA LATERAL FIJA ====== */
+nav{
+    position: fixed;
+    top: var(--header-height);
+    left: 0;
+    width: var(--sidebar-width);
+    height: calc(100vh - var(--header-height));
+    background: var(--light-bg);
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+    padding: 20px 0;
+    box-shadow: 2px 0 8px rgba(0, 0, 0, 0.1);
+    transition: transform 0.35s cubic-bezier(0.4, 0, 0.2, 1), visibility 0.35s cubic-bezier(0.4, 0, 0.2, 1);
+    z-index: 50;
+}
+
+nav a{
+    width: 100%;
+    padding: 15px 0;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-decoration: none;
+    color: var(--dark-tile);
+    font-size: 0.9rem;
+    transition: background 0.2s;
+}
+nav a svg{
+    width: 20px;
+    height: 20px;
+    margin-bottom: 5px;
+}
+nav a img{
+    width: 20px;
+    height: 20px;
+    margin-bottom: 5px;
+}
+
+nav.abierta a:hover{
+    background: var(--accent);
+}
+
+nav.contraida{
+    transform: translateX(-100%);
+    visibility: hidden;
+}
+nav.abierta{
+    transform: translateX(0);
+    visibility: visible;
+}
+#vidrio{
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.3);
+    z-index: 40;
+    visibility: hidden;
+    opacity: 0;
+    transition: opacity 0.35s cubic-bezier(0.4, 0, 0.2, 1), visibility 0.35s cubic-bezier(0.4, 0, 0.2, 1);
+}
+#vidrio.activo{
+    visibility: visible;
+    opacity: 1;
+}
+/* ====== PIE DE LA BARRA LATERAL ====== */
+
+#pie_barra_lateral{
+    position: absolute;
+    display: flex;
+    flex-direction: column;
+    bottom: 0;
+    align-items: flex-end;
+
+    justify-content: center;
+    
+}
+div#creditos{
+    position: relative;
+    margin-bottom: 10px;
+    color: var(--dark-tile);
+    font-size: 0.8rem;
+    text-align: center;
+    align-items: center;
+    display: flexbox;
+    flex-direction: column;
+    align-self: flex-end;
+}
+div#creditos span{
+    line-height: 1.2;
+    font-size: 15px;
+}
+
+img#Logo_sena{
+    position: relative;
+    width: 80px;
+    height: 80px;
+    display: flexbox;
+    align-self: center;
+    margin-bottom: 10px;
+}
+
+/*contenido*/
+
+.Arriba{
+    display: flex;
+    height: 70px;
+    width: 100%;
+    background: var(--light-bg);
+    background-color: var(--dark-tile);
+    color: var(--light-bg);
+    flex-direction: row;
+    text-align: center;
+    align-items: center;
+    justify-content: space-around;
+    font-size: 15px;
+}
+
+.btn_desplegable svg{
+    height: 25px;
+    width: 25px;
+    color: var(--accent);
+}
+
+#general{
+    position: relative;
+    height: 20px;
+    width: 100%;
+    bottom: -140px;
+    border-radius: 0%;
+}
+#menu_asig{
+    position: relative;
+    height: 20px;
+    width: 100%;
+    bottom: -200px;
+}
+#conteo_pro{
+    position: relative;
+    height: 20px;
+    width: 100%;
+    bottom: -265px;
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+#CrearMenu{
+    display: flex;
+    position: absolute;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    padding: 10px 20px;
+    font-size: 1rem;
+    width: 90px;
+    height: 90px;
+    background-color: var(--accent);
+    color: black;
+    text-decoration: none;
+    border: none;
+    border-radius: 100px;
+    cursor: pointer;
+    gap: 6px;
+    bottom: 150px;
+    right: 20px
+}
+#CrearMenu:hover{
+    background-color: #333;
+    color: white;
+}
+#CrearMenu svg{
+    width: 65px;
+    height: 65px;
+}
+/* ====== ESTILOS DE LOS BOTONES ABAJO ====== */
+
+#botones_abajo{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction:row;
+    position: absolute;
+    background: var(--light-bg);
+    width: 100%;
+    height: var(--header-height);
+    bottom: 0;
+    left: 0;
+    height: 12%;
+}
+#botones_abajo a{
+    padding: 5px 5px;
+    font-size: 1rem;
+    width: 150px;
+    height: 50px;
+    background-color: transparent;
+    color: black;
+    text-decoration: none;
+    margin-bottom: 30px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    text-align: center;
+    align-items: center;
+    flex-direction: row;
+}
+#botones_abajo a:hover{
+    background-color: var(--accent);
+    color: white;
+}
+#botones_abajo a svg{
+    width: 50px;
+    height: 50px;
+    margin: 0;
+    margin-right: 5px;
+    align-items: center;
+    text-align: center;
+}
+#botones_abajo a span{
+    font-size: 15px;
+    text-align: center;
+    align-items: center;
+}
+
+@media (max-width:800px) and (max-height:600px){
+    aside{
+        transform: translateX(-100%);
+        visibility: visible;
+    }
+    
+}

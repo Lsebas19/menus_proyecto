@@ -1,44 +1,84 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="es">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+    <title>Mi Empresa</title>
+    <link rel="stylesheet" href="/static/css/bordes.css">
+    <link rel="stylesheet" href="/static/css/mi_empresa.css">
 </head>
 <body>
-    <h2>Mi empresa</h2>
+    <header id="header_principal">
+        <button id="menu_ham">
+            <span></span>
+            <span></span>
+            <span></span>
+        </button>
+        <h1>Mi Empresa</h1>
+    </header>
 
-    <a href="/editarEmpresa/{{empresa[0][0]}}">editar</a>
-    <br>
-    <a href="/inicio">salir</a>
-    <br>
-    <br>
-    <label for="">Logo:</label><br>
-    <img src="uploads/{{empresa[0][9]}}" width="100px" height="100px" alt=""><br>
+    <div id="barraLateral" class="barra-lateral contraida">
+        <nav>
+            <a href="/editarEmpresa/{{empresa[0][0]}}" class="elemento-barra">Editar</a>
+            <a href="/inicio" class="elemento-barra">Salir</a>
+        </nav>
+        <div class="pie-barra-lateral"></div>
+    </div>
 
-    <label for="">QR:</label><br>
-    <img src="uploads/{{empresa[0][5]}}" width="100px" height="100px" alt=""><br>
-    <a href="uploads/{{empresa[0][5]}}" download="">Descargar QR</a><br><br>
-    <label for="">Nit empresa:</label>
-    <p>{{empresa[0][0]}}</p><br>
+    <div id="vidrio"></div>
 
-    <label for="">Nombre:</label>
-    <p>{{empresa[0][2]}}</p><br>
+    <main>
+        <div id="contenedor_empresa">
+            <div id="seccion_logo">
+                <label id="label_logo">Logo:</label>
+                <img id="img_logo" src="/uploads/{{empresa[0][9]}}" alt="Logo de empresa">
+            </div>
 
-    <label for="">correo:</label>
-    <p>{{empresa[0][3]}}</p><br>
+            <div id="seccion_qr">
+                <label id="label_qr">Código QR:</label>
+                <img id="img_qr" src="/uploads/{{empresa[0][5]}}" alt="Código QR">
+                <a id="btn_descargar_qr" href="/uploads/{{empresa[0][5]}}" download>Descargar QR</a>
+            </div>
 
-    <label for="">ciudad:</label>
-    <p>{{empresa[0][4]}}</p><br>
+            <div id="datos_empresa">
+                <div id="dato_item">
+                    <label>NIT Empresa:</label>
+                    <p>{{empresa[0][0]}}</p>
+                </div>
 
-    <label for="">direccion:</label>
-    <p>{{empresa[0][7]}}</p><br>
+                <div id="dato_item">
+                    <label>Nombre:</label>
+                    <p>{{empresa[0][2]}}</p>
+                </div>
 
-    <label for="">telefono:</label>
-    <p>{{empresa[0][8]}}</p><br>
-    
-    <label for="">pais:</label>
-    <p>{{empresa[0][10]}}</p><br>
+                <div id="dato_item">
+                    <label>Correo:</label>
+                    <p>{{empresa[0][3]}}</p>
+                </div>
 
+                <div id="dato_item">
+                    <label>Ciudad:</label>
+                    <p>{{empresa[0][4]}}</p>
+                </div>
+
+                <div id="dato_item">
+                    <label>Dirección:</label>
+                    <p>{{empresa[0][7]}}</p>
+                </div>
+
+                <div id="dato_item">
+                    <label>Teléfono:</label>
+                    <p>{{empresa[0][8]}}</p>
+                </div>
+
+                <div id="dato_item">
+                    <label>País:</label>
+                    <p>{{empresa[0][10]}}</p>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <script src="/static/js/bordes.js"></script>
 </body>
 </html>

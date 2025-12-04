@@ -1,75 +1,71 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="es">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
-    <style>
-        div#cont_producto{
-            padding: 10px;
-            width: 100%;
-            height: 180px;
-            display: flex;
-            align-items: center;
-            border: solid 1px #000;
-        }
-        img{
-            width: 180px;
-            height: 100%;
-            margin-right: 30px;
-        }
-
-        .texto{
-            display: block;
-            border: none;
-        }
-        .precios{
-            display: flex;
-        }
-
-        .tachar{
-            margin-right: 20px;
-            text-decoration: line-through;
-        }
-    </style>
+    <title>Productos</title>
+    <link rel="stylesheet" href="/static/css/bordes.css">
+    <link rel="stylesheet" href="/static/css/productos.css">
 </head>
 <body>
-    <h2>PRODUCTOS</h2>
-    <a href="/crearProducto"> agregar producto</a>
-    <br>
-    <a href="/inicio">salir</a>
+    <header id="header_principal">
+        <button id="menu_ham">
+            <span></span>
+            <span></span>
+            <span></span>
+        </button>
+        <h1>Productos</h1>
+    </header>
 
-    {% if contador_productos == 0 %}
-        <h2>No hay productos creados</h2>
-    {% else %}
-        {% for productos in producto %}
-            
-            <div id="cont_producto">
-                <img src="uploads/{{productos[4]}}" alt="">
-                <div class="texto">
-                    <p>{{productos[1]}}</p>
-                    <p>{{productos[2]}}</p>
-                    <p>{{productos[3]}}</p>
-                    <div class="precios">
-                        {% if productos[10] != 0 %}
-                            <p class="tachar">{{productos[5]}}</p>
-                            <p>{{productos[10]}}</p>
-                        {% else %}
-                            <p>{{productos[5]}}</p>
-                        {% endif %}
-                    </div>
-                    
-                    <a href="/editarProducto/{{productos[0]}}">Editar</a>
-                    <a href="/eliminarProducto/{{productos[0]}}">Eliminar</a>
-                    <a href="/asignarCategoria/{{productos[0]}}">Categorias</a>
-                    <a href="/promocionarProducto/{{productos[0]}}">promocion</a>
-                    
+    <div id="barraLateral" class="barra-lateral contraida">
+        <nav>
+            <a href="/crearProducto" class="elemento-barra">Agregar Producto</a>
+            <a href="/inicio" class="elemento-barra">Salir</a>
+        </nav>
+        <div class="pie-barra-lateral"></div>
+    </div>
+
+    <div id="vidrio"></div>
+
+    <main>
+        <div id="contenedor_productos">
+            {% if contador_productos == 0 %}
+                <div id="sin_productos">
+                    <h3>No hay productos creados</h3>
+                    <p>Haz clic en "Agregar Producto" para crear uno</p>
                 </div>
-                    
-            </div>
-                
-        {% endfor %}
-    {% endif %}
+            {% else %}
+                {% for productos in producto %}
+                    <div id="producto_card">
+                        <img id="producto_imagen" src="/uploads/{{productos[4]}}" alt="{{productos[1]}}">
+                        <div id="producto_contenido">
+                            <h3 id="producto_nombre">{{productos[1]}}</h3>
+                            <p id="producto_descripcion">{{productos[2]}}</p>
+                            <p id="producto_categoria">{{productos[3]}}</p>
+                            
+                            <div id="producto_precios">
+                                {% if productos[10] != 0 %}
+                                    <p id="precio_original">{{productos[5]}}</p>
+                                    <p id="precio_promocion">{{productos[10]}}</p>
+                                {% else %}
+                                    <p id="precio_actual">{{productos[5]}}</p>
+                                {% endif %}
+                            </div>
+                            
+                            <div id="producto_acciones">
+                                <a href="/editarProducto/{{productos[0]}}" class="btn_accion btn_editar">Editar</a>
+                                <a href="/asignarCategoria/{{productos[0]}}" class="btn_accion btn_categorias">Categorías</a>
+                                <a href="/promocionarProducto/{{productos[0]}}" class="btn_accion btn_promocion">Promoción</a>
+                                <a href="/eliminarProducto/{{productos[0]}}" class="btn_accion btn_eliminar" onclick="return confirm('¿Estás seguro de que deseas eliminar este producto?')">Eliminar</a>
+                            </div>
+                        </div>
+                    </div>
+                {% endfor %}
+            {% endif %}
+        </div>
+    </main>
 
+    <script src="/static/js/bordes.js"></script>
+    <script src="/static/js/productos.js"></script>
 </body>
 </html>
