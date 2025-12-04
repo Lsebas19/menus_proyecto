@@ -177,21 +177,19 @@ class Usuario:
         return usuario
 
     #metodo para crear usuario
-    def editarUsuario(self, numero_identidad,id, nombre, correo):
-        if id != numero_identidad:
-            return "numero de identidad cambiado"
-        else:
+    def editarUsuario(self, numero_identidad, nombre, correo):
+        
             #obtiene fecha y hora en la que se creó el usuario
-            fecha = datetime.now()
+        fecha = datetime.now()
 
-            #inserta los datos
-            sql = f"UPDATE usuarios SET nombre = '{nombre}',correo='{correo}',fecha_creacion='{fecha}' WHERE numero_identidad = '{numero_identidad}'"
-            
-            mi_cursor = base_datos.cursor()    
-            mi_cursor.execute(sql)
+        #inserta los datos
+        sql = f"UPDATE usuarios SET nombre = '{nombre}',correo='{correo}',fecha_creacion='{fecha}' WHERE numero_identidad = '{numero_identidad}'"
+        
+        mi_cursor = base_datos.cursor()    
+        mi_cursor.execute(sql)
 
-            base_datos.commit()
-            mi_cursor.close()
+        base_datos.commit()
+        mi_cursor.close()
 
     def sanitizacionContrasenas(self,contrasena_vieja,contrasena_nueva):
 
@@ -220,5 +218,22 @@ class Usuario:
 
         base_datos.commit()
         mi_cursor.close()
+    
+    def buscarUsuarios(self):
+        sql = f"SELECT * FROM usuarios WHERE rol = 0 AND estado = 1"
+        mi_cursor = base_datos.cursor()
+        mi_cursor.execute(sql)
 
+        resultado = mi_cursor.fetchall()
+        mi_cursor.close()
+        
+        return resultado
+
+    def eliminarUsuario(self, id):
+        sql = f"UPDATE usuarios SET estado = 0 WHERE numero_identidad = '{id}'"
+        mi_cursor = base_datos.cursor()
+        mi_cursor.execute(sql)
+
+        base_datos.commit()
+        mi_cursor.close()
 mi_usuario = Usuario()

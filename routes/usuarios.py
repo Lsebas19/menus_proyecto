@@ -32,10 +32,12 @@ def comprobarInicioSesion():
         elif resultado == "administrador":
             session["login"] = True
             session["numero_identidad"] = numero_identidad
+            session["rol"] = 1
             return redirect("/inicioAdmin")
         
         else:
             session["login"] = True
+            session["rol"] = 0
             session["numero_identidad"] = numero_identidad
             #recolectar el resultado de la busqueda de empresa del usuario
             resultado_empresa = mi_usuario.comprobarEmpresa(numero_identidad)
@@ -121,8 +123,9 @@ def inicioAdmin():
         usuario = mi_usuario.buscarUsuarioPorID(id)
 
         if usuario[0][6] == 1:
+            resultado = mi_usuario.buscarUsuarios()
             #si si la hay se renderiza el html de inicio
-            return render_template("inicio_admin.html")
+            return render_template("inicio_admin.html", usuarios = resultado, nombre = usuario[0][1])
         else:
             return redirect("/cerrarSesion")
 
@@ -136,16 +139,17 @@ def miUsuario():
 
         return render_template("mi_usuario.html",usuario=resultado)
 
-@web_app.route("/editarUsuario")
-def editarUsuario():
+@web_app.route("/editarUsuario/<id>")
+def editarUsuario(id):
     #verifica que se haya iniciado sesion
     if session.get("login") != True:
         return redirect("/")
     else:
-        #recolecta el numero de identidad del usuario logueado para buscar los datos de este
-        numero_identidad = session.get("numero_identidad")
-        resultado = mi_usuario.buscarUsuarioPorID(numero_identidad)
-        return render_template("editar_usuario.html",usuario=resultado)
+        if session.get("rol") == 1:
+            resultado = mi_usuario.buscarUsuarioPorID(id)
+            return render_template("editar_usuario.html",usuario=resultado)
+        else:
+            return redirect("/")
     
 @web_app.route("/comprobarEditarUsuario",methods=["POST"])
 def comprobarEditarUsuario():
@@ -156,26 +160,17 @@ def comprobarEditarUsuario():
 
     #sanitizacion de los datos
     resultado = mi_usuario.sanitizacionEditarUsuario(numero_identidad, nombre,correo)
-
-    id = session.get("numero_identidad")
-
-    resultado_usuario = mi_usuario.buscarUsuarioPorID(id)
+    
     #condicional para verificar errores en la sanitizacion
     if resultado == "campos correctos":
         #metodo para la edicion del usuario
         
-        resultado_editar_usuario = mi_usuario.editarUsuario(numero_identidad,id,nombre,correo)
-
-        #condicional para verificar errores en la edicion del usuario 
-        if resultado_editar_usuario == "numero de identidad cambiado":
-           #renderizar el html con el error
-           return render_template("editar_usuario.html", msg = resultado_editar_usuario,usuario=resultado_usuario)
-        else:
-            #redireccionar a usuario
-            return redirect("/usuario")
+        mi_usuario.editarUsuario(numero_identidad,nombre,correo)
+        #redireccionar a usuario
+        return redirect("/inicioAdmin")
     else:
         #renderizar el html con el error
-        return render_template("editar_usuario.html", msg = resultado,usuario=resultado_usuario)
+        return render_template("editar_usuario.html", msg = resultado)
 
 @web_app.route("/cambiarContrasena")
 def cambiarContrasena():
@@ -224,3 +219,14 @@ def verificarNumeroIdentidad(id):
         return jsonify({"mensaje":"si"})
     else:
         return jsonify({"mensaje":"usuario ya existe"})
+
+@web_app.route("/eliminarUsuario/<id>")
+def eliminarUsuario(id):
+    if session.get("login") != True:
+        return redirect("/")
+    else:
+        if session.get("rol") != 1:
+            return redirect("/cerrarSesion")
+        else:
+            mi_usuario.eliminarUsuario(id)
+            return redirect("/inicioAdmin")
