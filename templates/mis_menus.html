@@ -4,30 +4,10 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Mis Menús</title>
-    <link rel="stylesheet" href="/static/css/bordes.css">
-    <link rel="stylesheet" href="/static/css/mis_menus.css">
 </head>
 <body>
-    <header id="header_principal">
-        <button id="menu_ham">
-            <span></span>
-            <span></span>
-            <span></span>
-        </button>
-        <h1>Mis Menús</h1>
-    </header>
-
-    <div id="barraLateral" class="barra-lateral contraida">
-        <nav>
-            <a href="/agregarMenu" class="elemento-barra">Agregar Menú</a>
-            <a href="/inicio" class="elemento-barra">Salir</a>
-        </nav>
-        <div class="pie-barra-lateral"></div>
-    </div>
-
-    <div id="vidrio"></div>
-
     <main>
+        <h1>Mis Menús</h1>
         <div id="contenedor_menus">
             {% if contador_menus == 0 %}
                 <div id="sin_menus">
@@ -52,10 +32,10 @@
                                 </div>
                                 
                                 <div id="menu_acciones">
-                                    <a href="/editarNombreMenu/{{menus[0]}}" class="btn_menu btn_editar">Editar</a>
-                                    <a href="/categoriasMenu/{{menus[0]}}" class="btn_menu btn_categorias">Categorías</a>
-                                    <a href="/ordenarCategorias/{{menus[0]}}" class="btn_menu btn_ordenar">Ordenar</a>
-                                    <a href="/eliminarMenu/{{menus[0]}}" class="btn_menu btn_eliminar" onclick="return confirm('¿Estás seguro de que deseas eliminar este menú?')">Borrar</a>
+                                    <a href="/editarNombreMenu/{{menus[0]}}">Editar</a>
+                                    <a href="/categoriasMenu/{{menus[0]}}">Categorías</a>
+                                    <a href="/ordenarCategorias/{{menus[0]}}">Ordenar</a>
+                                    <a href="/eliminarMenu/{{menus[0]}}" onclick="return confirm('¿Estás seguro de que deseas eliminar este menú?')">Borrar</a>
                                 </div>
                             </div>
                         {% endfor %}
@@ -64,8 +44,5 @@
             {% endif %}
         </div>
     </main>
-
-    <script src="/static/js/bordes.js"></script>
-    <script src="/static/js/mis_menus.js"></script>
 </body>
 </html>
