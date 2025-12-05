@@ -1,32 +1,41 @@
 *{
     margin: 0;
     padding: 0;
+    transition: all 0.7s ease;
     box-sizing: border-box;
 }
 :root {
     --header-height: 128px;
+    --sidebar-width: 128px;
     --accent: #E97451;
     --dark-tile: #2f3a3e;
     --light-bg: #e9e9e9;
     --gray-black: #36454f;
     --yellow-accent: #f5f5dc;
 }   
-body {
-    font-family: Segoe UI, Arial, sans-serif;
-    background: #fff;
+html {
+    height: 100%;
 }
+
+body {
+    font-family: 'Poppins', Arial, sans-serif;
+    background: #fff;
+    height: 100vh;
+    overflow: hidden;
+}
+
 /* ====== CONTENIDO PRINCIPAL ====== */
 main {
-    margin-left: var(--sidebar-width);
     margin-top: var(--header-height);
-    padding: 24px;
+    padding: 15px;
     background: var(--yellow-accent);
-    min-height: calc(100vh - var(--header-height));
-    transition: margin-left 0.3s ease;
+    height: calc(100vh - var(--header-height));
+    overflow: hidden;
 }
+
 * button {
     cursor: pointer;
-    font-family: 'Arial Nova', sans-serif;
+    font-family: 'Poppins', sans-serif;
     font-weight: 600;
     border: none;
     background: var(--accent);
@@ -42,70 +51,289 @@ header {
     background: var(--light-bg);
     display: flex;
     align-items: center;
-    padding: 0 24px;
+    justify-content: space-around;
+    padding: 0 15px;
     box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
     z-index: 1000;
-
 }
+
+header a{
+    display: flex;
+    width: 65px;
+    align-items: center;
+    justify-content: center;
+    height: 65px;
+    border-radius: 25%;
+    padding: 10px;
+    background: var(--accent);
+    color: var(--light-bg);
+}
+
 header #enInicio {
     display: flex;
     align-items: center;
     flex-grow: 1;
+    flex-wrap: wrap;
+    gap: 10px;
 }
 
 header h2 {
     color: var(--gray-black);
-    font-size: 1.5rem;
+    font-size: 1.3rem;
     font-weight: 700;
-    font-family: 'Arial Nova', sans-serif;
+    font-family: 'Poppins', sans-serif;
 }
-header p{
+
+header p {
     color: var(--accent);
-    font-size: 1rem;
-    font-weight: 500;
-    font-family: 'Arial Nova', sans-serif;
-    margin-left: 15px;
+    font-size: 0.9rem;
+    font-weight: 600;
+    font-family: 'Poppins', sans-serif;
 }
-
-
-
 
 /* ====== SECCIÓN DE USUARIOS ====== */
 
 div#enUsuarios {
     display: flex;
+    flex-direction: row;
     justify-content: space-between;
+    gap: 15px;
+    height: 60px;
     align-items: center;
+    background: var(--light-bg);
+    background-color: var(--gray-black);
+}
+
+div a#crearUsuario{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background: var(--accent);
+    color: black;
+    border-radius: 50%;
+    width: 50px;
+    height: 50px;
+    text-decoration: none;
 }
 
 div h3#enUsuarios {
-    color: var(--light-bg);
-    font-size: 1.2rem;
-    font-weight: 500;
-    font-family: 'Arial Nova', sans-serif;
-    margin-left: 15px;
-}
-div#contenido-panel {
-    background: var(--gray-black);
-    padding: 20px;
-    border-radius: 8px;
-    margin-top: 20px;
-    color: var(--light-bg);
-}
-table#Usuarios{
-    width: 100%;
-    border-collapse: collapse;
-    margin-top: 20px;
-    background: var(--gray-black);
-    color: var(--light-bg);
-    border: none;
-}
-table#Usuarios th, table#Usuarios td {
-    padding: 12px 15px;
-    border: 1px solid var(--light-bg);
-    text-align: left;
-}
-table#Usuarios th {
-    background: var(--accent);
+    color: var(--gray-black);
+    font-size: 1.1rem;
+    font-weight: 700;
+    font-family: 'Poppins', sans-serif;
 }
 
+div#contenido_panel {
+    background: var(--gray-black);
+    padding: 10px;
+    border-radius: 12px;
+    margin-top: 0;
+    color: var(--light-bg);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+    overflow: hidden;
+    flex-grow: 1;
+    display: flex;
+    flex-direction: column;
+}
+
+table#Usuarios {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 0;
+    background: var(--gray-black);
+    color: var(--light-bg);
+    border: 2px solid black;
+    font-size: 12px;
+    table-layout: auto;
+}
+
+table#Usuarios th,
+table#Usuarios td {
+    padding: 10px 8px;
+    border: 1px solid black;
+    text-align: center;
+    word-break: break-word;
+}
+
+table#Usuarios th {
+    background: var(--accent);
+    color: white;
+    font-weight: 700;
+    font-size: 12px;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+table#Usuarios tr:hover {
+    background: var(--gray-black);
+}
+
+table#Usuarios td a {
+    display: block;
+    padding: 6px 8px;
+    margin: 2px 0;
+    border-radius: 4px;
+    text-decoration: none;
+    font-size: 11px;
+    font-weight: 600;
+    color: white;
+    transition: all 0.2s ease;
+    width: 100%;
+    text-align: center;
+}
+
+#Usuarios a {
+    padding: 6px 8px;
+    margin: 2px 0;
+    border-radius: 4px;
+    text-decoration: none;
+    font-size: 11px;
+    font-weight: 600;
+    color: white;
+    display: block;
+    transition: all 0.2s ease;
+    text-align: center;
+    width: 100%;
+}
+
+#Usuarios a.btn-editar {
+    background: linear-gradient(135deg, #4A90E2, #357ABD);
+    box-shadow: 0 2px 6px rgba(74, 144, 226, 0.3);
+}
+
+#Usuarios a.btn-editar:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 10px rgba(74, 144, 226, 0.5);
+}
+
+#Usuarios a.btn-eliminar {
+    background: linear-gradient(135deg, #E74C3C, #C0392B);
+    box-shadow: 0 2px 6px rgba(231, 76, 60, 0.3);
+}
+
+#Usuarios a.btn-eliminar:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 10px rgba(231, 76, 60, 0.5);
+}
+
+/* ====== RESPONSIVE: TABLET (768px) ====== */
+@media (min-width: 768px) {
+    :root {
+        --header-height: 128px;
+        --sidebar-width: 128px;
+    }
+
+    main {
+        margin-left: 0;
+        padding: 20px;
+    }
+
+    header {
+        padding: 0 20px;
+        display: flex;
+        justify-content: space-around;
+    }
+
+    header h2 {
+        font-size: 1.5rem;
+    }
+
+    header p {
+        font-size: 1rem;
+    }
+
+    div#enUsuarios {
+        flex-direction: row;
+        justify-content: space-between;
+        align-items: center;
+        gap: 20px;
+    }
+
+    div h3#enUsuarios {
+        font-size: 1.2rem;
+    }
+
+    div#contenido-panel {
+        padding: 20px;
+        margin-top: 20px;
+    }
+
+    table#Usuarios {
+        font-size: 14px;
+    }
+
+    table#Usuarios th,
+    table#Usuarios td {
+        padding: 14px 12px;
+    }
+
+    table#Usuarios th {
+        font-size: 13px;
+    }
+
+    table#Usuarios td a {
+        padding: 8px 12px;
+        font-size: 12px;
+    }
+}
+
+/* ====== RESPONSIVE: PC (1025px+) ====== */
+@media (min-width: 1025px) {
+    :root {
+        --header-height: 128px;
+        --sidebar-width: 128px;
+    }
+
+    main {
+        padding: 25px;
+    }
+
+    header {
+        padding: 0 24px;
+        display: flex;
+        justify-content: space-between;
+        
+    }
+
+    header h2 {
+        font-size: 1.6rem;
+    }
+
+    header p {
+        font-size: 1.1rem;
+    }
+
+    div#enUsuarios {
+        flex-direction: row;
+        justify-content: space-between;
+        align-items: center;
+        gap: 25px;
+    }
+
+    div h3#enUsuarios {
+        font-size: 1.3rem;
+    }
+
+    div#contenido-panel {
+        padding: 25px;
+        margin-top: 25px;
+    }
+
+    table#Usuarios {
+        font-size: 15px;
+    }
+
+    table#Usuarios th,
+    table#Usuarios td {
+        padding: 15px 15px;
+    }
+
+    table#Usuarios th {
+        font-size: 14px;
+    }
+
+    table#Usuarios td a {
+        padding: 10px 14px;
+        font-size: 13px;
+    }
+}
